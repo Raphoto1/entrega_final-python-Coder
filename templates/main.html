@@ -1,22 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Manual Testing</title>
-    <link rel="icon" type="image/x-icon" href="{% static 'static/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static 'static/styles.css' %}">
-</head>
-<body>
-    <header>
-        <h1>Welcome to the Manual Testing App</h1>
-    </header>
-    <main>
-        <h2>Instructions</h2>
-        <p>Please follow the instructions carefully to complete the manual testing process.</p>
-    </main>
-    <footer>
-        <p>&copy; 2023 Manual Testing App</p>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block header_title %}Pruebas Manuales de Aplicaciones{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-blue-700 text-white">
+      <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="text-2xl font-bold">{% block title %}Testing Manual{% endblock %}</div>
+        <div class="hidden md:flex space-x-6">
+          <a href="#" class="hover:text-blue-200">Inicio</a>
+          <a href="#" class="hover:text-blue-200">Guía</a>
+          <a href="#" class="hover:text-blue-200">Recursos</a>
+          <a href="#" class="hover:text-blue-200">Contacto</a>
+          <a href="#" class="hover:text-blue-200">User</a>
+        </div>
+        <button id="menu-btn" class="md:hidden focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="md:hidden px-4 pb-4 hidden">
+        <a href="#" class="block py-2 hover:text-blue-200">Inicio</a>
+        <a href="#" class="block py-2 hover:text-blue-200">Guía</a>
+        <a href="#" class="block py-2 hover:text-blue-200">Recursos</a>
+        <a href="#" class="block py-2 hover:text-blue-200">Contacto</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+{% block content %}
+{% endblock %}
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-auto py-6">
+      <div class="max-w-7xl mx-auto px-4">
+        <p class="text-center text-sm">
+          &copy; 2025 Pruebas Manuales de Aplicaciones. Todos los derechos reservados.
+        </p>
+      </div>
     </footer>
-</body>
+    <script>
+      // Menú responsive
+      const menuBtn = document.getElementById("menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      menuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+    </script>
+  </body>
 </html>

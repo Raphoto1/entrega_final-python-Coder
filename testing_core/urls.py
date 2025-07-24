@@ -20,10 +20,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf import settings
 
-from testing_core.views import home
+from testing_core.views import home, platform
 
 urlpatterns = [
     path('', home, name='home'),
+    path('platform/', platform, name='platform'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

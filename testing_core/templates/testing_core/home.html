@@ -1,38 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pruebas Manuales de Aplicaciones</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-gray-50 min-h-screen">
-    <!-- Navbar -->
-    <nav class="bg-blue-700 text-white">
-      <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-        <div class="text-2xl font-bold">Testing Manual</div>
-        <div class="hidden md:flex space-x-6">
-          <a href="#" class="hover:text-blue-200">Inicio</a>
-          <a href="#" class="hover:text-blue-200">Guía</a>
-          <a href="#" class="hover:text-blue-200">Recursos</a>
-          <a href="#" class="hover:text-blue-200">Contacto</a>
-        </div>
-        <button id="menu-btn" class="md:hidden focus:outline-none">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
-      <!-- Mobile Menu -->
-      <div id="mobile-menu" class="md:hidden px-4 pb-4 hidden">
-        <a href="#" class="block py-2 hover:text-blue-200">Inicio</a>
-        <a href="#" class="block py-2 hover:text-blue-200">Guía</a>
-        <a href="#" class="block py-2 hover:text-blue-200">Recursos</a>
-        <a href="#" class="block py-2 hover:text-blue-200">Contacto</a>
-      </div>
-    </nav>
+{% extends "main.html" %}
 
-    <!-- Main Content -->
+{% block header_title %}Home{% endblock %}
+{% block title %}Home{% endblock %}
+    <!-- Main Content -->\
+{% block content %}
     <main class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
       <h1 class="text-3xl font-bold text-blue-700 mb-4">Bienvenido a la Prueba Manual de Aplicaciones</h1>
       <p class="text-gray-700 mb-6">
@@ -56,13 +27,5 @@
         </div>
       </div>
     </main>
-    <script>
-      // Menú responsive
-      const menuBtn = document.getElementById("menu-btn");
-      const mobileMenu = document.getElementById("mobile-menu");
-      menuBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
-      });
-    </script>
-  </body>
-</html>
+    {% endblock %}
+

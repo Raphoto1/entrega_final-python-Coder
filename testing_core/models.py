@@ -82,7 +82,7 @@ class FakeUser(models.Model):
 class App(models.Model):
     user = models.ForeignKey('auth.User', related_name='apps', on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
-    test_platform = models.ForeignKey(TestPlatform, related_name='apps', on_delete=models.CASCADE)
+    test_platforms = models.ManyToManyField(TestPlatform, related_name='apps')
     versions = models.CharField(max_length=50)
     current_version = models.CharField(max_length=50)
     description = models.TextField()
@@ -118,7 +118,6 @@ class AnswerFeedback(models.Model):
     
 class TestStatus(models.Model):
     test = models.ForeignKey(Test, related_name='statuses', on_delete=models.CASCADE)
-    assigned_to = models.ForeignKey('auth.User', related_name='test_statuses', on_delete=models.CASCADE)
     app = models.ForeignKey(App, related_name='statuses', on_delete=models.CASCADE)
     user = models.ForeignKey('auth.User', related_name='test_statuses', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

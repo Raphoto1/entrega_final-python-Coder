@@ -1,4 +1,9 @@
 from django import forms
+from .models import TestPlatform
+
+class TestPlatformForm(forms.Form):
+    name = forms.CharField(label='Platform Name', max_length=100)
+    version = forms.CharField(label='Version', widget=forms.Textarea, required=False)
 
 class TestForm(forms.Form):
     name = forms.CharField(label='Test Name', max_length=100)
@@ -9,6 +14,10 @@ class TestForm(forms.Form):
     
 class AppForm(forms.Form):
     name = forms.CharField(label='App Name', max_length=100)
-    version = forms.CharField(label='Version', max_length=50, required=False)
+    current_version = forms.CharField(label='Current Version', max_length=50, required=False)
     description = forms.CharField(label='Description', widget=forms.Textarea, required=False)
-    platform = forms.ChoiceField(label='Platform', choices=[('android', 'Android'), ('ios', 'iOS'), ('web', 'Web')])
+    platforms = forms.ModelMultipleChoiceField(
+        queryset=TestPlatform.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        label='Platforms'
+    )

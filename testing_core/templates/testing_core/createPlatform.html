@@ -1,1 +1,10 @@
-form create platform
+{%extends 'main.html'%} 
+{% block header_title %}Crear Plataforma{% endblock %}
+{% block title %}Crear Plataforma{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Crear Plataforma</button>
+</form>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "main.html" %} 
+{% block header_title %}Lista de Contextos{% endblock %} {% block title %}Lista de Contextos{% endblock %} 
+{% block content %}
+<div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+ <h2 class="font-semibold text-blue-800 mb-2">Lista de Contextos</h2>
+ <a href="{% url 'create_context' %}" class="buttonMain">
+          Crear Contexto
+        </a>
+    {% if test_contexts %}
+        <table class="max-w-full">
+            <thead>
+          <tr>
+            <th class="px-4 py-2">Nombre</th>
+            <th class="px-4 py-2">Descripcion</th>
+            <th class="px-4 py-2">Plataforma</th>
+            <th class="px-4 py-2">Movil/Celular</th>
+            <th class="px-4 py-2">Operador Celular</th>
+            <th class="px-4 py-2">Numero de Celular</th>
+            <th class="px-4 py-2">Tipo de Contrato</th>
+            <th class="px-4 py-2">Señal Celular</th>
+            <th class="px-4 py-2">Velocidad de Conexion</th>
+            <th class="px-4 py-2">web</th>
+            <th class="px-4 py-2">Navegador</th>
+          </tr>
+        </thead>
+        {% for ctx in test_contexts %}
+        <tbody>
+           <tr class="hover:bg-blue-50 transition odd:bg-blue-400">
+            <td class="px-4 py-2">{{ ctx.name }}</td>
+            <td class="px-4 py-2">{{ ctx.description }}</td>
+            <td class="px-4 py-2">{{ ctx.test_platform }}</td>
+            <td class="px-4 py-2">{{ ctx.mobile }}</td>
+            <td class="px-4 py-2">{{ ctx.mobile_carrier }}</td>
+            <td class="px-4 py-2">{{ ctx.mobile_number }}</td>
+            <td class="px-4 py-2">{{ ctx.mobile_contract }}</td>
+            <td class="px-4 py-2">{{ ctx.signal_strength }}</td>
+            <td class="px-4 py-2">{{ ctx.connection_speed }}</td>
+            <td class="px-4 py-2">{{ ctx.web }}</td>
+            <td class="px-4 py-2">{{ ctx.web_browser }}</td>
+        </tr> 
+        <tr>
+            <td class="px-4 py-2">
+                <a href="{% url 'detail_context' ctx.id %}" class="text-blue-600 hover:underline mr-2">Detalle</a>
+              <a href="{% url 'update_context' ctx.id %}" class="text-blue-600 hover:underline mr-2">Actualizar</a>
+                <a href="{% url 'delete_context' ctx.id %}" class="text-red-600 hover:underline">Eliminar</a>
+            </td>
+        </tr>
+    </tbody>
+          {% endfor %}
+        </table>
+    {% else %}
+        <p>No hay contextos disponibles.</p>
+    {% endif %}
+</div>
+{% endblock %}

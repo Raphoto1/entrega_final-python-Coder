@@ -1,0 +1,15 @@
+{% extends "main.html" %}
+{% block header_title %}Detalle Aplicación{% endblock %} {% block title %}Aplicación {{ test_app.name }}{% endblock %}
+{% block content %}
+<div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">Detalle de Aplicación</h2>
+      <p><strong>Nombre:</strong> {{ test_app.name }}</p>
+      <p><strong>Plataformas de App:</strong> {{ test_app.test_platforms }}</p>
+      <p><strong>Version Actual de App:</strong> {{ test_app.current_version }}</p>
+      <p><strong>Versiones de App:</strong> {{ test_app.versions }}</p>
+      <p><strong>Descripción:</strong> {{ test_app.description }}</p>
+      <p><strong>Fecha de Creación:</strong> {{ test_app.created_at }}</p>
+      <p><strong>Fecha de Actualización:</strong> {{ test_app.updated_at }}</p>
+    </div>
+
+{% endblock %}

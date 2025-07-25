@@ -1,8 +1,8 @@
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 
-from testing_core.forms import TestPlatformForm, TestContextForm, TestForm, AppForm
-from testing_core.models import TestPlatform, TestContext, Test, Question, TestQuestion, Answers
+from testing_core.forms import TestPlatformForm, TestContextForm, TestForm, AppForm, FakeUserForm
+from testing_core.models import FakeUser, TestPlatform, TestContext, Test, Question, TestQuestion, Answers, App
 
 # Create your views here.
 def home(request):
@@ -12,31 +12,12 @@ def home(request):
 def platform(request):
     testPlatform= TestPlatform.objects.all()
     testContext = TestContext.objects.all()
-    return render(request, 'testing_core/platform.html', {'testPlatform': testPlatform, 'testContext': testContext  })
+    testApps = App.objects.all()
+    FakeUsers = FakeUser.objects.all()
+    return render(request, 'testing_core/platform.html', {'testPlatform': testPlatform, 'testContext': testContext, 'apps': testApps, 'FakeUsers': FakeUsers})
 
-def create_context(request):
-    if request.method == 'POST':
-        form = TestContextForm(request.POST)
-        if form.is_valid():
-            context = TestContext(
-                name=form.cleaned_data['name'],
-                test_platform=form.cleaned_data['test_platform'],
-                mobile=form.cleaned_data['mobile'],
-                mobile_carrier=form.cleaned_data['mobile_carrier'],
-                mobile_number=form.cleaned_data['mobile_number'],
-                mobile_contract=form.cleaned_data['mobile_contract'],
-                signal_strength=form.cleaned_data['signal_strength'],
-                connection_speed=form.cleaned_data['connection_speed'],
-                web=form.cleaned_data['web'],
-                web_browser=form.cleaned_data['web_browser'],
-                description=form.cleaned_data['description']
-            )
-            context.save()
-            return redirect('platform')
-    else:
-        form = TestContextForm()
-    return render(request, 'testing_core/createContext.html', {'form': form})
 
+#platform
 class TestPlatformCreateView(CreateView):
     model = TestPlatform
     form_class = TestPlatformForm
@@ -70,3 +51,113 @@ class TestPlatformDetailView(DetailView):
     model = TestPlatform
     template_name = 'testing_core/testPlatform/detailPlatform.html'
     context_object_name = 'test_platform'
+    
+#context
+class TestContextCreateView(CreateView):
+    model = TestContext
+    form_class = TestContextForm
+    template_name = 'testing_core/testContext/createContext.html'
+    success_url = '/platform/'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+class TestContextListView(ListView):
+    model = TestContext
+    template_name = 'testing_core/testContext/listContext.html'
+    context_object_name = 'test_contexts'
+
+class TestContextUpdateView(UpdateView):
+    model = TestContext
+    form_class = TestContextForm
+    template_name = 'testing_core/testContext/updateContext.html'
+    success_url = '/listContext/'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+class TestContextDeleteView(DeleteView):
+    model = TestContext
+    template_name = 'testing_core/testContext/deleteContext.html'
+    context_object_name = 'test_context'
+    success_url = '/listContext/'
+
+class TestContextDetailView(DetailView):
+    model = TestContext
+    template_name = 'testing_core/testContext/detailContext.html'
+    context_object_name = 'test_context'
+    
+#app
+class TestAppCreateView(CreateView):
+    model = App
+    form_class = AppForm
+    template_name = 'testing_core/testApp/createApp.html'
+    success_url = '/platform/'
+
+    def form_valid(self, form):
+        app = form.save(commit=False)
+        app.user = self.request.user  # Asigna el usuario actual
+        app.save()
+        form.save_m2m()  # Guarda relaciones ManyToMany
+        return super().form_valid(form)
+    
+class TestAppListView(ListView):
+    model = App
+    template_name = 'testing_core/testApp/listApps.html'
+    context_object_name = 'test_apps'
+    
+class TestAppUpdateView(UpdateView):
+    model = App
+    form_class = AppForm
+    template_name = 'testing_core/testApp/updateApp.html'
+    success_url = '/listApps/'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+class TestAppDeleteView(DeleteView):
+    model = App
+    template_name = 'testing_core/testApp/deleteApp.html'
+    context_object_name = 'test_app'
+    success_url = '/listApps/'
+
+class TestAppDetailView(DetailView):
+    model = App
+    template_name = 'testing_core/testApp/detailApp.html'
+    context_object_name = 'test_app'
+    
+#fakeUser
+class FakeUserCreateView(CreateView):
+    model = FakeUser
+    form_class = FakeUserForm
+    template_name = 'testing_core/fakeUser/createFakeUser.html'
+    success_url = '/platform/'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+class FakeUserListView(ListView):
+    model = FakeUser
+    template_name = 'testing_core/fakeUser/listFakeUser.html'
+    context_object_name = 'fake_users'
+    
+class FakeUserUpdateView(UpdateView):
+    model = FakeUser
+    form_class = FakeUserForm
+    template_name = 'testing_core/fakeUser/updateFakeUser.html'
+    success_url = '/listFakeUsers/'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+class FakeUserDeleteView(DeleteView):
+    model = FakeUser
+    template_name = 'testing_core/fakeUser/deleteFakeUser.html'
+    context_object_name = 'fake_user'
+    success_url = '/listFakeUsers/'
+    
+class FakeUserDetailView(DetailView):
+    model = FakeUser
+    template_name = 'testing_core/fakeUser/detailFakeUser.html'
+    context_object_name = 'fake_user'
+    

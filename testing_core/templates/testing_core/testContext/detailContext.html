@@ -1,0 +1,19 @@
+{% extends "main.html" %} 
+{% block header_title %}Detalle Contexto{% endblock %} {% block title %}Contexto {{ test_context.name }}{% endblock %} 
+{% block content %}
+<div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">Detalle de Contexto</h2>
+      <p><strong>Nombre:</strong> {{ test_context.name }}</p>
+      <p><strong>Descripción:</strong> {{ test_context.description }}</p>
+      <p><strong>Fecha de Creación:</strong> {{ test_context.test_platform }}</p>
+      <p><strong>Fecha de Creación:</strong> {{ test_context.mobile }}</p>
+        <p><strong>Operador Celular:</strong> {{ test_context.mobile_carrier }}</p>
+        <p><strong>Número de Celular:</strong> {{ test_context.mobile_number }}</p>
+        <p><strong>Tipo de Contrato:</strong> {{ test_context.mobile_contract }}</p>
+        <p><strong>Señal Celular:</strong> {{ test_context.signal_strength }}</p>
+        <p><strong>Velocidad de Conexión:</strong> {{ test_context.connection_speed }}</p>
+        <p><strong>Web:</strong> {{ test_context.web }}</p>
+        <p><strong>Navegador:</strong> {{ test_context.web_browser }}</p>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "main.html" %} {% block header_title %}Lista de Apps{% endblock %}
+{% block title %}Lista de Apps{% endblock %}
+{% block content %}
+<div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+  <h2 class="font-semibold text-blue-800 mb-2">Lista de Apps</h2>
+  <a href="{% url 'create_app' %}" class="buttonMain"> Crear App </a>
+  {% if test_apps %}
+  <table class="max-w-full">
+    <thead>
+      <tr>
+        <th class="px-4 py-2">Nombre</th>
+        <th class="px-4 py-2">Descripcion</th>
+        <th class="px-4 py-2">Plataforma</th>
+        <th class="px-4 py-2">Version Actual</th>
+        <th class="px-4 py-2">Versiones Anteriores</th>
+        <th class="px-4 py-2">Fecha de creacion</th>
+        <th class="px-4 py-2">Fecha de Actualizacion</th>
+      </tr>
+    </thead>
+    {% for app in test_apps %}
+    <tbody>
+      <tr class="hover:bg-blue-50 transition odd:bg-blue-400">
+        <td class="px-4 py-2">{{ app.name }}</td>
+        <td class="px-4 py-2">{{ app.description }}</td>
+        <td class="px-4 py-2">{% for plat in app.test_platforms.all %} {{ plat.name }}{% if not forloop.last %}, {% endif %} {% endfor %}</td>
+        <td class="px-4 py-2">{{ app.current_version }}</td>
+        <td class="px-4 py-2">{{ app.versions }}</td>
+        <td class="px-4 py-2">{{ app.created_at }}</td>
+        <td class="px-4 py-2">{{ app.updated_at }}</td>
+      </tr>
+      <tr>
+        <td class="px-4 py-2">
+          <a href="{% url 'detail_app' app.id %}" class="text-blue-600 hover:underline mr-2">Detalle</a>
+          <a href="{% url 'update_app' app.id %}" class="text-blue-600 hover:underline mr-2">Actualizar</a>
+          <a href="{% url 'delete_app' app.id %}" class="text-red-600 hover:underline">Eliminar</a>
+        </td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>No hay contextos disponibles.</p>
+  {% endif %}
+</div>
+{% endblock %}

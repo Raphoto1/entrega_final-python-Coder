@@ -14,7 +14,7 @@
     Primero Crea Una plataforma, luego Crea un Contexto, crea una app, crea preguntas, crea uun fake user, crea un test y luego ejecuta el test.
   </p>
   <div class="grid md:grid-cols-2 gap-6">
-    <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition flex flex-col h-full">
+    <div class="testPlatform bg-blue-100 p-4 rounded shadow hover:shadow-lg transition flex flex-col h-full">
       <h2 class="font-semibold text-blue-800 mb-2">Lista de plataformas</h2>
       <div class="list list overflow-y-auto flex-1">
         {% if testPlatform %}
@@ -45,7 +45,7 @@
         <a href="{% url 'list_platforms' %}" class="buttonNeutral">Administrar</a>
       </div>
     </div>
-    <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+    <div class="testContext bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
       <h2 class="font-semibold text-blue-800 mb-2">Lista de contextos</h2>
       {% if testContext %}
       <table>
@@ -67,24 +67,92 @@
         </tbody>
       </table>
       {% else %}
-      <p class="text-gray-700 text-sm">No hay plataformas disponibles.</p>
+      <p class="text-gray-700 text-sm">No hay Contextos disponibles.</p>
       {% endif %}
-      <a href="{% url 'create_context' %}">
-        <button class="mt-2 button main hover:underline">Crear Contexto</button>
-      </a>
+      <div class="btnGroup mt-4 flex space-x-4 justify-end align-end">
+        <a href="{% url 'create_context' %}" class="buttonMain">
+          Crear Contexto
+        </a>
+        <a href="{% url 'list_contexts' %}" class="buttonNeutral">Administrar</a>
+      </div>
     </div>
-    <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
-      <h2 class="font-semibold text-blue-800 mb-2">Lista de Test</h2>
-      {% if tests %}
+    <div class="testApps bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">Lista de Apps</h2>
+      {% if apps %}
       <table>
         <thead>
           <tr>
-            <th class="px-4 py-2">ID</th>
             <th class="px-4 py-2">Nombre</th>
-            <th class="px-4 py-2">Estado</th>
+            <th class="px-4 py-2">Descripcion</th>
+            <th class="px-4 py-2">Version</th>
           </tr>
         </thead>
         <tbody>
+          {% for app in apps %}
+          <tr class="hover:bg-blue-50 transition odd:bg-blue-400">
+            <td class="px-4 py-2">{{ app.name }}</td>
+            <td class="px-4 py-2">{{ app.description }}</td>
+            <td class="px-4 py-2">{{ app.current_version }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="text-gray-700 text-sm">No hay Apps disponibles.</p>
+      {% endif %}
+      <div class="btnGroup mt-4 flex space-x-4 justify-end align-end">
+        <a href="{% url 'create_app' %}" class="buttonMain">
+          Crear App
+        </a>
+        <a href="{% url 'list_apps' %}" class="buttonNeutral">Administrar</a>
+      </div>
+    </div>
+    <div class="fakeUsers bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">Lista de Fake Users</h2>
+      {% if FakeUsers %}
+      <table>
+        <thead>
+          <tr>
+            <th class="px-4 py-2">Nombre</th>
+            <th class="px-4 py-2">Nombre de usuario</th>
+            <th class="px-4 py-2">Email</th>
+            <th class="px-4 py-2">Teléfono</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for fake_user in FakeUsers %}
+          <tr class="hover:bg-blue-50 transition odd:bg-blue-400">
+            <td class="px-4 py-2">{{ fake_user.name }}</td>
+            <td class="px-4 py-2">{{ fake_user.fake_username }}</td>
+            <td class="px-4 py-2">{{ fake_user.email }}</td>
+            <td class="px-4 py-2">{{ fake_user.phone_number }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="text-gray-700 text-sm">No hay Fake Users disponibles.</p>
+      {% endif %}
+      <div class="btnGroup mt-4 flex space-x-4 justify-end align-end">
+        <a href="{% url 'create_fake_user' %}" class="buttonMain">
+          Crear Fake User
+        </a>
+        <a href="{% url 'list_fake_users' %}" class="buttonNeutral">Administrar</a>
+      </div>
+    </div>
+    <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">Lista de Test</h2>
+      {% if apps %}
+      <table>
+        <thead>
+          <tr>
+            <th class="px-4 py-2">Nombre</th>
+            <th class="px-4 py-2">Descripcion</th>
+            <th class="px-4 py-2">Version</th>
+          </tr>
+        </thead>
+        <tbody>
+       
           <!-- Aquí se mostrarán los tests -->
         </tbody>
       </table>

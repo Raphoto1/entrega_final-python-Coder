@@ -29,7 +29,35 @@ class TestContext(models.Model):
 
     def __str__(self):
         return self.name
-# form check
+
+# form check    
+class App(models.Model):
+    user = models.ForeignKey('auth.User', related_name='apps', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, unique=True)
+    test_platforms = models.ManyToManyField(TestPlatform, related_name='apps')
+    versions = models.CharField(max_length=50)
+    current_version = models.CharField(max_length=50)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+class FakeUser(models.Model):
+    name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100, blank=True, null=True)
+    fake_username = models.CharField(max_length=100, blank=True, null=True)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=128)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    age = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+    
 class Test(models.Model):
     creator_user = models.ForeignKey('auth.User', related_name='tests', on_delete=models.CASCADE)
     fakeUser = models.ForeignKey('fakeUser', related_name='tests', on_delete=models.CASCADE)
@@ -43,7 +71,7 @@ class Test(models.Model):
 
     def __str__(self):
         return self.name
-# form check    
+  
 class Question(models.Model):
     question_text = models.CharField(max_length=255)
     spected_answer = models.TextField()
@@ -68,33 +96,7 @@ class Answers(models.Model):
     def __str__(self):
         return f"{self.test.name} - {self.question.question_text}: {self.answer_text}"
     
-# form check
-class FakeUser(models.Model):
-    name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100, blank=True, null=True)
-    fake_username = models.CharField(max_length=100, blank=True, null=True)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)
-    phone_number = models.CharField(max_length=15, blank=True, null=True)
-    age = models.IntegerField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.name
-    
-class App(models.Model):
-    user = models.ForeignKey('auth.User', related_name='apps', on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, unique=True)
-    test_platforms = models.ManyToManyField(TestPlatform, related_name='apps')
-    versions = models.CharField(max_length=50)
-    current_version = models.CharField(max_length=50)
-    description = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
     
 class TestResult(models.Model):
     user = models.ForeignKey('auth.User', related_name='test_results', on_delete=models.CASCADE)

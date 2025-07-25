@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+{% block header_title %}Detalle FakeUser{% endblock %} {% block title %}Fake User {{ fake_user.name }}{% endblock %}
+{% block content %}
+<div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">Detalle de FakeUser</h2>
+      <p><strong>Nombre:</strong> {{ fake_user.name }}</p>
+      <p><strong>Apellido:</strong> {{ fake_user.last_name }}</p>
+      <p><strong>Nombre de Usuario:</strong> {{ fake_user.fake_username }}</p>
+      <p><strong>Email:</strong> {{ fake_user.email }}</p>
+      <p><strong>Teléfono:</strong> {{ fake_user.phone_number }}</p>
+      <p><strong>Edad:</strong> {{ fake_user.age }}</p>
+    </div>
+
+{% endblock %}

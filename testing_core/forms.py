@@ -5,22 +5,48 @@ class TestPlatformForm(forms.ModelForm):
     class Meta:
         model = TestPlatform
         fields = ['name', 'version']
-
-class TestContextForm(forms.Form):
-    name = forms.CharField(label='Context Name', max_length=100)
-    test_platform = forms.ModelChoiceField(
+        
+class TestContextForm(forms.ModelForm):
+    class Meta:
+        model = TestContext
+        fields = [
+            'name', 'test_platform', 'mobile', 'mobile_carrier',
+            'mobile_number', 'mobile_contract', 'signal_strength',
+            'connection_speed', 'web', 'web_browser', 'description'
+        ]
+        
+class AppForm(forms.ModelForm):
+    test_platforms = forms.ModelMultipleChoiceField(
         queryset=TestPlatform.objects.all(),
-        label='Test Platform'
+        widget=forms.CheckboxSelectMultiple,
+        label='Plataformas'
     )
-    mobile = forms.BooleanField(label='Is Mobile?', required=False)
-    mobile_carrier = forms.CharField(label='Mobile Carrier', max_length=100, required=False)
-    mobile_number = forms.CharField(label='Mobile Number', max_length=15, required=False)
-    mobile_contract = forms.CharField(label='Mobile Contract', max_length=100, required=False)
-    signal_strength = forms.CharField(label='Signal Strength', max_length=100, required=False)
-    connection_speed = forms.CharField(label='Connection Speed', max_length=100, required=False)
-    web = forms.BooleanField(label='Is Web?', required=False)
-    web_browser = forms.CharField(label='Web Browser', max_length=100, required=False)
-    description = forms.CharField(label='Description', widget=forms.Textarea, required=False)    
+
+    class Meta:
+        model = App
+        fields = ['name', 'current_version', 'description', 'test_platforms']
+        labels = {
+            'name': 'Nombre',
+            'current_version': 'Versión Actual',
+            'description': 'Descripción',
+        }
+
+class FakeUserForm(forms.ModelForm):
+    class Meta:
+        model = FakeUser
+        fields = ['name', 'last_name', 'fake_username', 'email', 'password', 'phone_number', 'age']
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
+        labels = {
+            'name': 'Nombre',
+            'last_name': 'Apellido',
+            'fake_username': 'Nombre de Usuario Falso',
+            'email': 'Correo Electrónico',
+            'password': 'Contraseña',
+            'phone_number': 'Número de Teléfono',
+            'age': 'Edad',
+        }
 
 class TestForm(forms.Form):
     name = forms.CharField(label='Test Name', max_length=100)
@@ -47,26 +73,11 @@ class TestForm(forms.Form):
         label='Questions'
     )
     
-class AppForm(forms.Form):
-    name = forms.CharField(label='App Name', max_length=100)
-    current_version = forms.CharField(label='Current Version', max_length=50, required=False)
-    description = forms.CharField(label='Description', widget=forms.Textarea, required=False)
-    platforms = forms.ModelMultipleChoiceField(
-        queryset=TestPlatform.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        label='Platforms'
-    )
+
     
 class QuestionForm(forms.Form):
     question_text = forms.CharField(label='Question Text', max_length=255)
     spected_answer = forms.CharField(label='Spected Answer', widget=forms.Textarea)
     reference_image = forms.ImageField(label='Reference Image', required=False)
     
-class FakeUserForm(forms.Form):
-    name = forms.CharField(label='Name', max_length=100)
-    last_name = forms.CharField(label='Last Name', max_length=100, required=False)
-    fake_username = forms.CharField(label='Fake Username', max_length=100, required=False)
-    email = forms.EmailField(label='Email')
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    phone_number = forms.CharField(label='Phone Number', max_length=15, required=False)
-    age = forms.IntegerField(label='Age', required=False)
+   

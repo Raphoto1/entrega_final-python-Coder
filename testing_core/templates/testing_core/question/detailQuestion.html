@@ -1,0 +1,13 @@
+{% extends "main.html" %}
+{% block header_title %}Detalle Pregunta{% endblock %} {% block title %}Pregunta {{ question.question_text }}{% endblock %}
+{% block content %}
+<div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">Detalle de Pregunta</h2>
+      <p><strong>Pregunta:</strong> {{ question.question_text }}</p>
+      <p><strong>Respuesta Esperada:</strong> {{ question.spected_answer }}</p>
+      <p><strong>Captura de Referencia:</strong> {{ question.reference_capture }}</p>
+      <p><strong>Fecha de Creación:</strong> {{ question.created_at }}</p>
+      <p><strong>Fecha de Actualización:</strong> {{ question.updated_at }}</p>
+    </div>
+
+{% endblock %}

@@ -75,9 +75,10 @@ class TestForm(forms.Form):
     
 
     
-class QuestionForm(forms.Form):
-    question_text = forms.CharField(label='Question Text', max_length=255)
-    spected_answer = forms.CharField(label='Spected Answer', widget=forms.Textarea)
-    reference_image = forms.ImageField(label='Reference Image', required=False)
-    
-   
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['question_text', 'spected_answer', 'reference_image']
+        widgets = {
+            'spected_answer': forms.Textarea(),
+        }

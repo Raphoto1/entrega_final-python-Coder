@@ -43,7 +43,7 @@ class App(models.Model):
 
     def __str__(self):
         return self.name
-
+#form check
 class FakeUser(models.Model):
     name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100, blank=True, null=True)

@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
 
-from testing_core.forms import TestPlatformForm, TestContextForm, TestForm, AppForm, FakeUserForm
+from testing_core.forms import TestPlatformForm, TestContextForm, TestForm, AppForm, FakeUserForm, QuestionForm
 from testing_core.models import FakeUser, TestPlatform, TestContext, Test, Question, TestQuestion, Answers, App
 
 # Create your views here.
@@ -14,7 +14,8 @@ def platform(request):
     testContext = TestContext.objects.all()
     testApps = App.objects.all()
     FakeUsers = FakeUser.objects.all()
-    return render(request, 'testing_core/platform.html', {'testPlatform': testPlatform, 'testContext': testContext, 'apps': testApps, 'FakeUsers': FakeUsers})
+    Questions = Question.objects.all()
+    return render(request, 'testing_core/platform.html', {'testPlatform': testPlatform, 'testContext': testContext, 'apps': testApps, 'FakeUsers': FakeUsers, 'Questions': Questions})
 
 
 #platform
@@ -160,4 +161,39 @@ class FakeUserDetailView(DetailView):
     model = FakeUser
     template_name = 'testing_core/fakeUser/detailFakeUser.html'
     context_object_name = 'fake_user'
+    
+#question
+class QuestionCreateView(CreateView):  
+    model = Question
+    form_class = QuestionForm
+    template_name = 'testing_core/question/createQuestion.html'
+    success_url = '/platform/'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+class QuestionListView(ListView):
+    model = Question
+    template_name = 'testing_core/question/listQuestions.html'
+    context_object_name = 'questions'
+    
+class QuestionUpdateView(UpdateView):
+    model = Question
+    form_class = QuestionForm
+    template_name = 'testing_core/question/updateQuestion.html'
+    success_url = '/listQuestions/'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+class QuestionDeleteView(DeleteView):
+    model = Question
+    template_name = 'testing_core/question/deleteQuestion.html'
+    context_object_name = 'question'
+    success_url = '/listQuestions/'
+    
+class QuestionDetailView(DetailView):
+    model = Question
+    template_name = 'testing_core/question/detailQuestion.html'
+    context_object_name = 'question'
     

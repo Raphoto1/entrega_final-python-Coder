@@ -1,1 +1,10 @@
-form de create app
+{%extends 'main.html'%} 
+{% block header_title %}Crear Aplicación{% endblock %}
+{% block title %}Crear Aplicación{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Crear Aplicación</button>
+</form>
+{% endblock %}

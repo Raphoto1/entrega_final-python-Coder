@@ -1,1 +1,10 @@
-form create context
+{%extends 'main.html'%} 
+{% block header_title %}Crear Contexto{% endblock %}
+{% block title %}Crear Contexto{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Crear Contexto</button>
+</form>
+{% endblock %}

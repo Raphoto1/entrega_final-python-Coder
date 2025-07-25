@@ -1,6 +1,8 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
+# form check
 class TestPlatform(models.Model):
     name = models.CharField(max_length=100)
     version = models.TextField()
@@ -9,7 +11,7 @@ class TestPlatform(models.Model):
 
     def __str__(self):
         return self.name
-
+# form check
 class TestContext(models.Model):
     name = models.CharField(max_length=100)
     test_platform = models.ForeignKey(TestPlatform, related_name='contexts', on_delete=models.CASCADE)
@@ -18,7 +20,7 @@ class TestContext(models.Model):
     mobile_number = models.CharField(max_length=15, blank=True, null=True)
     mobile_contract = models.CharField(max_length=100, blank=True, null=True)
     signal_strength = models.IntegerField(blank=True, null=True)
-    connection_speed = models.IntegerField(blank=True, null=True)
+    connection_speed = models.CharField(max_length=100, blank=True, null=True)
     web = models.BooleanField(default=False)
     web_browser = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField()
@@ -27,7 +29,7 @@ class TestContext(models.Model):
 
     def __str__(self):
         return self.name
-
+# form check
 class Test(models.Model):
     creator_user = models.ForeignKey('auth.User', related_name='tests', on_delete=models.CASCADE)
     fakeUser = models.ForeignKey('fakeUser', related_name='tests', on_delete=models.CASCADE)
@@ -41,7 +43,7 @@ class Test(models.Model):
 
     def __str__(self):
         return self.name
-    
+# form check    
 class Question(models.Model):
     question_text = models.CharField(max_length=255)
     spected_answer = models.TextField()
@@ -49,7 +51,7 @@ class Question(models.Model):
 
     def __str__(self):
         return self.question_text
-    
+ #form NOT NEEDED   
 class TestQuestion(models.Model):
     test = models.ForeignKey(Test, related_name='questions', on_delete=models.CASCADE)
     questions = models.ForeignKey(Question, related_name='tests', on_delete=models.CASCADE)
@@ -66,9 +68,11 @@ class Answers(models.Model):
     def __str__(self):
         return f"{self.test.name} - {self.question.question_text}: {self.answer_text}"
     
-
+# form check
 class FakeUser(models.Model):
     name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100, blank=True, null=True)
+    fake_username = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
@@ -117,13 +121,13 @@ class AnswerFeedback(models.Model):
         return f"Feedback by {self.reviewer} on {self.answer}"
     
 class TestStatus(models.Model):
-    test = models.ForeignKey(Test, related_name='statuses', on_delete=models.CASCADE)
-    app = models.ForeignKey(App, related_name='statuses', on_delete=models.CASCADE)
-    user = models.ForeignKey('auth.User', related_name='test_statuses', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    test_status_id = models.AutoField(primary_key=True)
+    test = models.ForeignKey(Test, related_name='statuses', on_delete=models.CASCADE, null=True, blank=True)
+    app = models.ForeignKey(App, related_name='statuses', on_delete=models.CASCADE, default=None, null=True, blank=True)
+    user = models.ForeignKey('auth.User', related_name='test_statuses', on_delete=models.CASCADE, null=True, blank=True)
     status = models.CharField(max_length=50)  # Ejemplo: 'pending', 'in_progress', 'completed'
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.test.name} - {self.status}"
+        return f"{self.test_status_id} - {self.status}"
 

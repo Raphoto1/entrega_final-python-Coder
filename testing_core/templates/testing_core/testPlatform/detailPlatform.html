@@ -1,0 +1,9 @@
+{% extends "main.html" %} 
+{% block header_title %}Detalle Plataforma{% endblock %} {% block title %}Plataforma {{ test_platform.name }}{% endblock %} 
+{% block content %}
+    <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">detalle de plataforma</h2>
+      <p><strong>Nombre:</strong> {{ test_platform.name }}</p>
+      <p><strong>Versión:</strong> {{ test_platform.version }}</p>
+    </div>
+{% endblock %}

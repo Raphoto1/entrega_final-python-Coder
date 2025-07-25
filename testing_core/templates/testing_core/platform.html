@@ -1,51 +1,109 @@
-{% extends "main.html" %}
-
-{% block header_title %}Pruebas Manuales de Aplicaciones{% endblock %}
-{% block title %}Testing Manual{% endblock %}
-
+{% extends "main.html" %} 
+{% block header_title %}Pruebas Manuales de Aplicaciones{% endblock %} {% block title %}Testing Manual{% endblock %}
+{%block steps %}
+<h1>Pasos para hacer un test</h1>
+{% endblock %}
 {% block content %}
-<section> </section>
-    <main class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
-      <h1 class="text-3xl font-bold text-blue-700 mb-4">Plataforma de Pruebas Manuales</h1>
-      <p class="text-gray-700 mb-6">
-        Aquí puedes gestionar tus pruebas manuales, crear contextos de test, plataformas y más. Utiliza las opciones a continuación para comenzar.
-      </p>
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
-          <h2 class="font-semibold text-blue-800 mb-2">Lista de Test</h2>
-          {% if tests %}
-          <table>
-            <thead>
-              <tr>
-                <th class="px-4 py-2">ID</th>
-                <th class="px-4 py-2">Nombre</th>
-                <th class="px-4 py-2">Estado</th>
-                
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Aquí se mostrarán los tests -->
-            </tbody>
-          </table>
-            {% else %}
-              <p class="text-gray-700 text-sm">No hay tests disponibles.</p>
-            {% endif %}
-        </div>
-        <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
-          <h2 class="font-semibold text-blue-800 mb-2">Crear Test</h2>
-          <p class="text-gray-700 text-sm">Configura y gestiona tus pruebas manuales de manera eficiente.</p>
-        </div>
-        <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
-          <h2 class="font-semibold text-blue-800 mb-2">Gestión de Usuarios</h2>
-          <p class="text-gray-700 text-sm">Administra los usuarios que participarán en las pruebas.</p>
-        </div>
+<section></section>
+<main class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
+  <h1 class="text-3xl font-bold text-blue-700 mb-4">Plataforma de Pruebas Manuales</h1>
+  <p class="text-gray-700 mb-6">
+    Aquí puedes gestionar tus pruebas manuales, crear contextos de test, plataformas y más. Utiliza las opciones a continuación para comenzar.
+  </p>
+  <p class="text-gray-700 mb-6">
+    Primero Crea Una plataforma, luego Crea un Contexto, crea una app, crea preguntas, crea uun fake user, crea un test y luego ejecuta el test.
+  </p>
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition flex flex-col h-full">
+      <h2 class="font-semibold text-blue-800 mb-2">Lista de plataformas</h2>
+      <div class="list list overflow-y-auto flex-1">
+        {% if testPlatform %}
+        <table>
+          <thead>
+            <tr>
+              <th class="px-4 py-2">Platform</th>
+              <th class="px-4 py-2">Version</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for plat in testPlatform %}
+            <tr class="hover:bg-blue-50 transition odd:bg-blue-400">
+              <td class="px-4 py-2">{{ plat.name }}</td>
+              <td class="px-4 py-2">{{ plat.version }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p class="text-gray-700 text-sm">No hay plataformas disponibles.</p>
+        {% endif %}
       </div>
-    </main>
-lista de tests para un user,
-opciones para crear una app para test
-opciones para crear un contexto de test
-opciones para crear una plataforma para test
-opciones para crear preguntas para un test
-opciones para crear fakeuser para un test
-opciones de crear, editar y eliminar tests
+      <div class="btnGroup mt-4 flex space-x-4 justify-end align-end">
+        <a href="{% url 'create_platform' %}" class="buttonMain">
+          Crear Plataforma
+        </a>
+        <a href="{% url 'list_platforms' %}" class="buttonNeutral">Administrar</a>
+      </div>
+    </div>
+    <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">Lista de contextos</h2>
+      {% if testContext %}
+      <table>
+        <thead>
+          <tr>
+            <th class="px-4 py-2">Nombre</th>
+            <th class="px-4 py-2">Plataforma</th>
+            <th class="px-4 py-2">Móvil</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for context in testContext %}
+          <tr class="hover:bg-blue-50 transition odd:bg-blue-400">
+            <td class="px-4 py-2">{{ context.name }}</td>
+            <td class="px-4 py-2">{{ context.test_platform.name }}</td>
+            <td class="px-4 py-2">{{ context.mobile|yesno:"Sí,No" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="text-gray-700 text-sm">No hay plataformas disponibles.</p>
+      {% endif %}
+      <a href="{% url 'create_context' %}">
+        <button class="mt-2 button main hover:underline">Crear Contexto</button>
+      </a>
+    </div>
+    <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">Lista de Test</h2>
+      {% if tests %}
+      <table>
+        <thead>
+          <tr>
+            <th class="px-4 py-2">ID</th>
+            <th class="px-4 py-2">Nombre</th>
+            <th class="px-4 py-2">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se mostrarán los tests -->
+        </tbody>
+      </table>
+      {% else %}
+      <p class="text-gray-700 text-sm">No hay tests disponibles.</p>
+      {% endif %}
+      <button class="mt-2 text-blue-500 hover:underline">Crear Test</button>
+    </div>
+
+    <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">Crear Test</h2>
+      <p class="text-gray-700 text-sm">Configura y gestiona tus pruebas manuales de manera eficiente.</p>
+    </div>
+    <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">Gestión de Usuarios</h2>
+      <p class="text-gray-700 text-sm">Administra los usuarios que participarán en las pruebas.</p>
+    </div>
+  </div>
+</main>
+lista de tests para un user, opciones para crear una app para test opciones para crear un contexto de test opciones para crear una plataforma para test opciones
+para crear preguntas para un test opciones para crear fakeuser para un test opciones de crear, editar y eliminar tests 
 {% endblock %}

@@ -1,0 +1,11 @@
+{%extends 'main.html'%} 
+{% block header_title %}Actualizar Plataforma{% endblock %}
+{% block title %}Actualizar Plataforma{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Actualizar Plataforma</button>
+</form>
+<a href="{% url 'list_platforms' %}" class="text-blue-600 hover:underline">Cancelar</a>
+{% endblock %}

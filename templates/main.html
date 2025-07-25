@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -5,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block header_title %}Pruebas Manuales de Aplicaciones{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}" />
   </head>
   <body class="bg-gray-50 min-h-screen flex flex-col">
     <!-- Navbar -->
@@ -12,8 +14,8 @@
       <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <div class="text-2xl font-bold">{% block title %}Testing Manual{% endblock %}</div>
         <div class="hidden md:flex space-x-6">
-          <a href="#" class="hover:text-blue-200">Inicio</a>
-          <a href="#" class="hover:text-blue-200">Guía</a>
+          <a href="{% url 'home' %}" class="hover:text-blue-200">Inicio</a>
+          <a href="{% url 'platform' %}" class="hover:text-blue-200">Plataforma</a>
           <a href="#" class="hover:text-blue-200">Recursos</a>
           <a href="#" class="hover:text-blue-200">Contacto</a>
           <a href="#" class="hover:text-blue-200">User</a>
@@ -34,6 +36,7 @@
     </nav>
 
     <!-- Main Content -->
+     {% block steps%}{% endblock %}
 {% block content %}
 {% endblock %}
     <!-- Footer -->

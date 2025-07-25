@@ -1,1 +1,10 @@
-form create fakeuser
+{%extends 'main.html'%} 
+{% block header_title %}Crear Fake User{% endblock %}
+{% block title %}Crear Fake User{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Crear Fake User</button>
+</form>
+{% endblock %}

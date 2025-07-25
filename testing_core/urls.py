@@ -18,14 +18,21 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from django.conf import settings
 
-from testing_core.views import home, platform, create_platform
+from testing_core.views import (TestPlatformCreateView, create_context, home, 
+                                platform,
+                                TestPlatformListView, TestPlatformDeleteView,
+                                TestPlatformUpdateView, TestPlatformDetailView)
 
 urlpatterns = [
     path('', home, name='home'),
     path('platform/', platform, name='platform'),
-    path('createPlatform/', create_platform , name='create_platform'),
+    path('createPlatform/', TestPlatformCreateView.as_view(), name='create_platform'),
+    path('listPlatforms/', TestPlatformListView.as_view(), name='list_platforms'),
+    path('deletePlatform/<int:pk>/', TestPlatformDeleteView.as_view(), name='delete_platform'),
+    path('updatePlatform/<int:pk>/', TestPlatformUpdateView.as_view(), name='update_platform'),
+    path('detailPlatform/<int:pk>/', TestPlatformDetailView.as_view(), name='detail_platform'),
+    path('createContext/', create_context , name='create_context'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,11 +5,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView, LogoutView
 
-from users.forms import RegisterForm
+from users.forms import RegisterForm, AvatarForm
+from users.models import Avatar
 # Create your views here.
-
-def test_view(request):
-    return render(request, 'users/test.html')
 
 class UserRegisterView(CreateView):
     model = User
@@ -30,3 +28,37 @@ class UserLoginView(LoginView):
     
     def get_success_url(self) -> str:
         return reverse_lazy('platform')
+
+class UserLogoutView(LogoutView):
+    template_name = 'users/logout.html'
+    next_page = reverse_lazy('login')
+    
+class ProfileView(DetailView):
+    model = User
+    template_name = 'users/profile.html'
+    
+    def get_object(self):
+        return self.request.user
+    
+
+    
+class ProfileUpdateView(UpdateView):
+    model = User
+    template_name = 'users/profile_update.html'
+    fields = ['first_name', 'last_name', 'email']
+    success_url = reverse_lazy('profile')
+
+    def get_object(self):
+        return self.request.user       
+
+class AvatarUpdateView(UpdateView):
+    model = Avatar
+    form_class = AvatarForm
+    template_name = 'users/avatar_update.html'
+    success_url = reverse_lazy('profile')
+    
+    def get_object(self, queryset=None):
+        user = self.request.user
+        avatar, created = Avatar.objects.get_or_create(user=user)
+        return avatar
+    

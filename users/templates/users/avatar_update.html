@@ -1,0 +1,10 @@
+{% extends 'main.html' %}
+{% block header_title %}Actualizar Avatar{% endblock %}
+{% block title %}Actualizar Avatar{% endblock %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Actualizar Avatar</button>
+</form>
+{% endblock %}

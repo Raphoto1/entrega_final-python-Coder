@@ -61,5 +61,3 @@ urlpatterns = [
     path('updateQuestion/<int:pk>/', QuestionUpdateView.as_view(), name='update_question'),
     path('detailQuestion/<int:pk>/', QuestionDetailView.as_view(), name='detail_question'),
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

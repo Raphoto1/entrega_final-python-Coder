@@ -18,7 +18,13 @@
           <a href="{% url 'platform' %}" class="hover:text-blue-200">Plataforma</a>
           <a href="#" class="hover:text-blue-200">Recursos</a>
           <a href="#" class="hover:text-blue-200">Contacto</a>
-          <a href="#" class="hover:text-blue-200">User</a>
+          {% if user.id %}
+          <a href="{% url 'logout' %}" class="hover:text-blue-200">Cerrar Sesión</a>
+          <a href="{% url 'profile' %}" class="hover:text-blue-200">Perfil</a>
+          {% else %}
+          <a href="{% url 'register' %}" class="hover:text-blue-200">Registrarse</a>
+          <a href="{% url 'login' %}" class="hover:text-blue-200">Iniciar Sesión</a>
+          {% endif %}
         </div>
         <button id="menu-btn" class="md:hidden focus:outline-none">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -36,15 +42,11 @@
     </nav>
 
     <!-- Main Content -->
-     {% block steps%}{% endblock %}
-{% block content %}
-{% endblock %}
+    {% block steps%}{% endblock %} {% block content %} {% endblock %}
     <!-- Footer -->
     <footer class="bg-gray-800 text-white mt-auto py-6">
       <div class="max-w-7xl mx-auto px-4">
-        <p class="text-center text-sm">
-          &copy; 2025 Pruebas Manuales de Aplicaciones. Todos los derechos reservados.
-        </p>
+        <p class="text-center text-sm">&copy; 2025 Pruebas Manuales de Aplicaciones. Todos los derechos reservados.</p>
       </div>
     </footer>
     <script>

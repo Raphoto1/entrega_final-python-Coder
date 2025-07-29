@@ -3,12 +3,13 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 
-from users.views import UserRegisterView, UserLoginView, test_view
+from .views import UserRegisterView, UserLoginView, UserLogoutView, ProfileView, ProfileUpdateView, AvatarUpdateView
 
 urlpatterns = [
     path('register/', UserRegisterView.as_view(), name='register'),
     path('login/', UserLoginView.as_view(), name='login'),
-    path('test/', test_view, name='test')
+    path('logout/', UserLogoutView.as_view(), name='logout'),
+    path('profile/', ProfileView.as_view(), name='profile'),
+    path('profile/update/', ProfileUpdateView.as_view(), name='profile_update'),
+    path('avatar/update/', AvatarUpdateView.as_view(), name='avatar_update'),
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

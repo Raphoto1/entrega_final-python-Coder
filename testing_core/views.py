@@ -6,7 +6,6 @@ from testing_core.models import FakeUser, TestPlatform, TestContext, Test, Quest
 
 # Create your views here.
 def home(request):
-
     return render(request, 'testing_core/home.html')
 
 def platform(request):

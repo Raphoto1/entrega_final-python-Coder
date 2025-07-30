@@ -1,0 +1,15 @@
+{% extends 'main.html' %}
+{% block header_title %}Perfil y Roles{% endblock %}
+{% block title %}Perfil y Roles{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ role_form.as_p }}
+    {% if user.role %}
+    <button type="submit">Actualizar Roles</button>
+    {% else %}
+    <button type="submit">Agregar Rol</button>
+    {% endif %}
+
+</form>
+{% endblock %}

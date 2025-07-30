@@ -1,12 +1,9 @@
-{% extends 'main.html'%} 
-{% block header_title %}Cerrar Sesión{% endblock %}
+{% extends "main.html" %}
 {% block title %}Cerrar Sesión{% endblock %}
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    <p>¿Estás seguro de que quieres cerrar sesión?</p>
-    <button type="submit">Cerrar Sesión</button>
-</form>
+<div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow text-center">
+  <h2 class="text-2xl font-bold text-blue-700 mb-4">Sesión cerrada correctamente</h2>
+  <a href="{% url 'login' %}" class="buttonMain">Iniciar Sesión</a>
+</div>
 {% endblock %}
 
-{% extends 'main.html'%} 

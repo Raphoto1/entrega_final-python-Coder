@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import Avatar
+from .models import Avatar, Role
 
 
 class RegisterForm(UserCreationForm):
@@ -26,3 +26,29 @@ class AvatarForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['image'].label = "Avatar Image"
+        
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["username", "email", "first_name", "last_name"]
+        
+
+class ProfileRoleForm(forms.ModelForm):
+    ROLE_CHOICES = [
+        ('tester', 'Tester'),
+        ('dev', 'Developer'),
+        ('manager', 'Manager'),
+        ('viewer', 'Viewer')
+    ]
+    name = forms.ChoiceField(choices=ROLE_CHOICES, label="Que Rol Asignar", widget=forms.Select(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = Role
+        fields = ['name', 'description']
+        widgets = {
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'description': "Role Description"
+        }
+

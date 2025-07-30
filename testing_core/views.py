@@ -1,13 +1,16 @@
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
+from django.contrib.auth.decorators import login_required
 
 from testing_core.forms import TestPlatformForm, TestContextForm, TestForm, AppForm, FakeUserForm, QuestionForm
 from testing_core.models import FakeUser, TestPlatform, TestContext, Test, Question, TestQuestion, Answers, App
+
 
 # Create your views here.
 def home(request):
     return render(request, 'testing_core/home.html')
 
+@login_required
 def platform(request):
     testPlatform= TestPlatform.objects.all()
     testContext = TestContext.objects.all()

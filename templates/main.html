@@ -16,10 +16,13 @@
         <div class="hidden md:flex space-x-6">
           <a href="{% url 'home' %}" class="hover:text-blue-200">Inicio</a>
           <a href="{% url 'platform' %}" class="hover:text-blue-200">Plataforma</a>
-          <a href="#" class="hover:text-blue-200">Recursos</a>
+          <a href="#" class="hover:text-blue-200">About</a>
           <a href="#" class="hover:text-blue-200">Contacto</a>
-          {% if user.id %}
-          <a href="{% url 'logout' %}" class="hover:text-blue-200">Cerrar Sesión</a>
+          {% if user.is_authenticated %}
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="hover:text-blue-200">Cerrar sesión</button>
+          </form>
           <a href="{% url 'profile' %}" class="hover:text-blue-200">Perfil</a>
           {% else %}
           <a href="{% url 'register' %}" class="hover:text-blue-200">Registrarse</a>

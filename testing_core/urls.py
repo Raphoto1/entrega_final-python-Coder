@@ -25,7 +25,7 @@ from testing_core.views import (home, platform,
                                 TestAppCreateView, TestAppListView, TestAppDeleteView, TestAppUpdateView, TestAppDetailView,
                                 FakeUserCreateView, FakeUserListView, FakeUserDeleteView, FakeUserUpdateView, FakeUserDetailView,
                                 QuestionCreateView, QuestionListView, QuestionDeleteView, QuestionUpdateView, QuestionDetailView, QuestionDetailView,
-)
+                                TestCreateView, TestListView, TestUpdateView, TestDeleteView, TestDetailView)
 
 urlpatterns = [
     path('', home, name='home'),
@@ -60,4 +60,12 @@ urlpatterns = [
     path('deleteQuestion/<int:pk>/', QuestionDeleteView.as_view(), name='delete_question'),
     path('updateQuestion/<int:pk>/', QuestionUpdateView.as_view(), name='update_question'),
     path('detailQuestion/<int:pk>/', QuestionDetailView.as_view(), name='detail_question'),
+    #tests
+    path('createTest/', TestCreateView.as_view(), name='create_test'),
+    path('listTests/', TestListView.as_view(), name='list_tests'),
+    path('updateTest/<int:pk>/', TestUpdateView.as_view(), name='update_test'),
+    path('deleteTest/<int:pk>/', TestDeleteView.as_view(), name='delete_test'),
+    path('detailTest/<int:pk>/', TestDetailView.as_view(), name='detail_test'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

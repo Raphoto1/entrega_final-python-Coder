@@ -15,3 +15,5 @@ urlpatterns = [
     path('avatar/update/', AvatarUpdateView.as_view(), name='avatar_update'),
     path('profile/role/', ProfileRoleView.as_view(), name='profile_role'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

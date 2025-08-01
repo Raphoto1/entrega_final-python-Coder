@@ -1,0 +1,10 @@
+{%extends 'main.html'%} 
+{% block header_title %}Crear Test{% endblock %}
+{% block title %}Crear Test{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Crear Test</button>
+</form>
+{% endblock %}

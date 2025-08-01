@@ -1,8 +1,6 @@
-{% extends "main.html" %} 
-{% block header_title %}Pruebas Manuales de Aplicaciones{% endblock %} {% block title %}Testing Manual{% endblock %}
-{%block steps %}
-<h1>Pasos para hacer un test</h1>
-{% endblock %}
+{% extends "main.html" %}
+{% block header_title %}Pruebas Manuales de Aplicaciones{% endblock %}
+{% block title %}Testing Manual{% endblock %}
 {% block content %}
 <section></section>
 <main class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow">
@@ -39,14 +37,15 @@
         {% endif %}
       </div>
       <div class="btnGroup mt-4 flex space-x-4 justify-end align-end">
-        <a href="{% url 'create_platform' %}" class="buttonMain">
-          Crear Plataforma
-        </a>
+        <a href="{% url 'create_platform' %}" class="buttonMain"> Crear Plataforma </a>
         <a href="{% url 'list_platforms' %}" class="buttonNeutral">Administrar</a>
       </div>
     </div>
     <div class="testContext bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
       <h2 class="font-semibold text-blue-800 mb-2">Lista de contextos</h2>
+      {% if not testPlatform %}
+      <strong class="text-gray-700 text-sm">Debes crear una Plataforma primero para crear contextos.</strong>
+      {%else%}
       {% if testContext %}
       <table>
         <thead>
@@ -70,14 +69,16 @@
       <p class="text-gray-700 text-sm">No hay Contextos disponibles.</p>
       {% endif %}
       <div class="btnGroup mt-4 flex space-x-4 justify-end align-end">
-        <a href="{% url 'create_context' %}" class="buttonMain">
-          Crear Contexto
-        </a>
+        <a href="{% url 'create_context' %}" class="buttonMain"> Crear Contexto </a>
         <a href="{% url 'list_contexts' %}" class="buttonNeutral">Administrar</a>
       </div>
+      {% endif %}
     </div>
     <div class="testApps bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
       <h2 class="font-semibold text-blue-800 mb-2">Lista de Apps</h2>
+      {% if not testContext %}
+      <strong class="text-gray-700 text-sm">Debes crear un contexto primero para crear apps.</strong>
+      {% else %}
       {% if apps %}
       <table>
         <thead>
@@ -101,11 +102,10 @@
       <p class="text-gray-700 text-sm">No hay Apps disponibles.</p>
       {% endif %}
       <div class="btnGroup mt-4 flex space-x-4 justify-end align-end">
-        <a href="{% url 'create_app' %}" class="buttonMain">
-          Crear App
-        </a>
+        <a href="{% url 'create_app' %}" class="buttonMain"> Crear App </a>
         <a href="{% url 'list_apps' %}" class="buttonNeutral">Administrar</a>
       </div>
+      {% endif %}
     </div>
     <div class="fakeUsers bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
       <h2 class="font-semibold text-blue-800 mb-2">Lista de Fake Users</h2>
@@ -134,9 +134,7 @@
       <p class="text-gray-700 text-sm">No hay Fake Users disponibles.</p>
       {% endif %}
       <div class="btnGroup mt-4 flex space-x-4 justify-end align-end">
-        <a href="{% url 'create_fake_user' %}" class="buttonMain">
-          Crear Fake User
-        </a>
+        <a href="{% url 'create_fake_user' %}" class="buttonMain"> Crear Fake User </a>
         <a href="{% url 'list_fake_users' %}" class="buttonNeutral">Administrar</a>
       </div>
     </div>
@@ -162,17 +160,44 @@
       {% else %}
       <p class="text-gray-700 text-sm">No hay preguntas disponibles.</p>
       {% endif %}
-     <div class="btnGroup mt-4 flex space-x-4 justify-end align-end">
-        <a href="{% url 'create_question' %}" class="buttonMain">
-          Crear Pregunta
-        </a>
+      <div class="btnGroup mt-4 flex space-x-4 justify-end align-end">
+        <a href="{% url 'create_question' %}" class="buttonMain"> Crear Pregunta </a>
         <a href="{% url 'list_questions' %}" class="buttonNeutral">Administrar</a>
       </div>
     </div>
 
     <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
       <h2 class="font-semibold text-blue-800 mb-2">Crear Test</h2>
-      <p class="text-gray-700 text-sm">Configura y gestiona tus pruebas manuales de manera eficiente.</p>
+      {% if not apps %}
+      <strong class="text-gray-700 text-sm">Debes crear una app primero para crear tests.</strong>
+      {% else %}
+      {% if tests %}
+      <table>
+        <thead>
+          <tr>
+            <th class="px-4 py-2">Nombre</th>
+            <th class="px-4 py-2">Descripcion</th>
+            <th class="px-4 py-2">Version</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for test in tests %}
+          <tr class="hover:bg-blue-50 transition odd:bg-blue-400">
+            <td class="px-4 py-2">{{ app.name }}</td>
+            <td class="px-4 py-2">{{ app.description }}</td>
+            <td class="px-4 py-2">{{ app.current_version }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="text-gray-700 text-sm">No hay Apps disponibles.</p>
+      {% endif %}
+      <div class="btnGroup mt-4 flex space-x-4 justify-end align-end">
+        <a href="{% url 'create_test' %}" class="buttonMain"> Crear App </a>
+        <a href="{% url 'list_tests' %}" class="buttonNeutral">Administrar</a>
+      </div>
+      {% endif %}
     </div>
     <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
       <h2 class="font-semibold text-blue-800 mb-2">Gestión de Usuarios</h2>
@@ -180,6 +205,7 @@
     </div>
   </div>
 </main>
+
 lista de tests para un user, opciones para crear una app para test opciones para crear un contexto de test opciones para crear una plataforma para test opciones
-para crear preguntas para un test opciones para crear fakeuser para un test opciones de crear, editar y eliminar tests 
+para crear preguntas para un test opciones para crear fakeuser para un test opciones de crear, editar y eliminar tests
 {% endblock %}

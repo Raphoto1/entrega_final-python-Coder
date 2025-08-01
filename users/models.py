@@ -10,7 +10,7 @@ class Avatar(models.Model):
         return f"{self.user.username}'s Avatar"
     
 class Role(models.Model):
-    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='roles')
+    user = models.OneToOneField('auth.User', on_delete=models.CASCADE, related_name='role')
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
 

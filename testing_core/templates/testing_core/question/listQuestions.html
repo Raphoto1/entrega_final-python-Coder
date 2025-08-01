@@ -18,7 +18,7 @@
       <tr class="hover:bg-blue-50 transition odd:bg-blue-400">
         <td class="px-4 py-2">{{ question.question_text }}</td>
         <td class="px-4 py-2">{{ question.spected_answer }}</td>
-        <td class="px-4 py-2">{{ question.reference_capture }}</td>
+        <td class="px-4 py-2"><img src="{{ question.reference_image.url }}" class="max-w-30 h-auto"/></td>
       </tr>
       <tr>
         <td class="px-4 py-2">

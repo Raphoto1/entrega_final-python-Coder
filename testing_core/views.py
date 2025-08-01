@@ -198,4 +198,44 @@ class QuestionDetailView(DetailView):
     model = Question
     template_name = 'testing_core/question/detailQuestion.html'
     context_object_name = 'question'
+
+#tests
+class TestCreateView(CreateView):
+    model = Test
+    form_class = TestForm
+    template_name = 'testing_core/testTemp/createTest.html'
+    success_url = '/list_tests/'
+
+    def form_valid(self, form):
+        test = form.save(commit=False)
+        test.creator_user = self.request.user  # Asigna el usuario actual
+        test.save()
+        form.save_m2m()  # Guarda relaciones ManyToMany
+        return super().form_valid(form)
     
+class TestListView(ListView):
+    model = Test
+    template_name = 'testing_core/testTemp/listTests.html'
+    context_object_name = 'tests'
+    
+class TestUpdateView(UpdateView):
+    model = Test
+    form_class = TestForm
+    template_name = 'testing_core/testTemp/updateTest.html'
+    success_url = '/listTests/'
+
+    def form_valid(self, form):
+        return super().form_valid(form)   
+    
+class TestDeleteView(DeleteView):
+    model = Test
+    template_name = 'testing_core/testTemp/deleteTest.html'
+    context_object_name = 'test'
+    success_url = '/listTests/'
+    
+class TestDetailView(DetailView):
+    model = Test
+    template_name = 'testing_core/testTemp/detailTest.html'
+    context_object_name = 'test'
+    
+ 

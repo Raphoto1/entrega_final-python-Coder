@@ -11,6 +11,7 @@ class TestPlatform(models.Model):
 
     def __str__(self):
         return self.name
+
 # form check
 class TestContext(models.Model):
     name = models.CharField(max_length=100)
@@ -79,6 +80,7 @@ class Question(models.Model):
 
     def __str__(self):
         return self.question_text
+    
  #form NOT NEEDED   
 class TestQuestion(models.Model):
     test = models.ForeignKey(Test, related_name='questions', on_delete=models.CASCADE)

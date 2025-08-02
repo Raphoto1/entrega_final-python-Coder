@@ -1,0 +1,10 @@
+{% extends 'main.html' %}
+{% block content %}
+<h3>¿Estás seguro que querés eliminar la pregunta?</h3>
+<p>{{ object.text }}</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a href="{% url 'detail-test' object.test.pk %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

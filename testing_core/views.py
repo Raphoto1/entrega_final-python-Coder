@@ -1,8 +1,12 @@
-from django.shortcuts import redirect, render
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView
+from typing import Any
+from django.db.models.query import QuerySet
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse, reverse_lazy
+from django.views import View
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView, FormView
 from django.contrib.auth.decorators import login_required
 
-from testing_core.forms import TestPlatformForm, TestContextForm, TestForm, AppForm, FakeUserForm, QuestionForm
+from testing_core.forms import TestPlatformForm, TestContextForm, TestForm, AppForm, FakeUserForm, QuestionForm, TestQuestionForm
 from testing_core.models import FakeUser, TestPlatform, TestContext, Test, Question, TestQuestion, Answers, App
 
 
@@ -204,11 +208,14 @@ class TestCreateView(CreateView):
     model = Test
     form_class = TestForm
     template_name = 'testing_core/testTemp/createTest.html'
-    success_url = '/list_tests/'
+    success_url = '/createcreate_questions_to_test/'
+
+    def get_success_url(self):
+        return reverse('create_questions_to_test', args=[self.object.pk])
 
     def form_valid(self, form):
         test = form.save(commit=False)
-        test.creator_user = self.request.user  # Asigna el usuario actual
+        test.creator_user = self.request.user
         test.save()
         form.save_m2m()  # Guarda relaciones ManyToMany
         return super().form_valid(form)
@@ -237,5 +244,74 @@ class TestDetailView(DetailView):
     model = Test
     template_name = 'testing_core/testTemp/detailTest.html'
     context_object_name = 'test'
+        
+class DeleteQuestionforTestView(DeleteView):
+    model = TestQuestion
+    template_name = 'testing_core/testQuestions/deleteTestQuestions.html'
+
+    def get_success_url(self):
+        return reverse_lazy('detail_test', kwargs={'pk': self.object.test.pk})
+
     
- 
+class CreateQuestionsForTests(FormView):
+    form_class = TestQuestionForm
+    template_name = 'testing_core/testQuestions/createTestQuestions.html' 
+
+    def get_test(self):
+        return get_object_or_404(Test, pk=self.kwargs.get('test_id'))
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['test'] = self.get_test() 
+        return kwargs
+
+    def form_valid(self, form):
+        test = self.get_test()
+        questions = form.cleaned_data.get('questions')
+
+        if not questions:
+            form.add_error('questions', 'Debes seleccionar al menos una pregunta.')
+            return self.form_invalid(form)
+
+        for question in questions:
+            exists = TestQuestion.objects.filter(test=test, questions=question).exists()
+            if not exists:
+                TestQuestion.objects.create(test=test, questions=question)
+
+        return redirect('detail_test', pk=test.pk)
+
+    def form_invalid(self, form):
+        print("DEBUG Vista — formulario inválido")
+        print("DEBUG Vista — errores:", form.errors)
+        return super().form_invalid(form)
+
+class UpdateQuestionsForTest(FormView):
+    form_class = TestQuestionForm
+    template_name = 'testing_core/testQuestions/updateTestQuestions.html'
+
+    def get_test(self):
+        return get_object_or_404(Test, pk=self.kwargs.get('test_id'))
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['test'] = self.get_test()
+        return kwargs
+
+    def form_valid(self, form):
+        test = self.get_test()
+        selected_questions = form.cleaned_data.get('questions')
+
+        # 🔥 Eliminamos vínculos previos
+        TestQuestion.objects.filter(test=test).delete()
+
+        # ✅ Creamos nuevas relaciones evitando duplicados
+        for question in selected_questions:
+            TestQuestion.objects.create(test=test, questions=question)
+
+        return redirect('detail_test', pk=test.pk)
+
+    def form_invalid(self, form):
+        print("DEBUG UpdateView — formulario inválido")
+        print("DEBUG UpdateView — errores:", form.errors)
+        return super().form_invalid(form)
+

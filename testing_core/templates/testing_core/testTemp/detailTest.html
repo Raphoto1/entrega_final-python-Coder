@@ -1,0 +1,45 @@
+{% extends "main.html" %} {% block header_title %}Detalle Test{% endblock %} {% block title %}Test {{ test.name }}{% endblock %} {% block content %}
+<div>
+  <a href="{% url 'list_tests' %}" class="buttonNeutral">Volver a lista de tests</a>
+  <a href="{% url 'update_test' pk=test.id %}">Editar</a>
+  <p><strong>Nombre:</strong> {{ test.name }}</p>
+  <p><strong>App:</strong> {{ test.app.name }}</p>
+  <p><strong>Contexto:</strong> {{test.test_context.name}}</p>
+  <p><strong>Plataforma:</strong> {{ test.test_platform.name }}</p>
+  <p><strong>Descripción:</strong> {{ test.description }}</p>
+  <p><strong>Cantidad de Preguntas:</strong> {{ test.questions.count }}</p>
+  <a href="{% url 'update_questions_for_test' test.pk %}" class="btn btn-warning mt-3"> 🔄 Actualizar preguntas del test </a>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="px-4 py-2">Pregunta</th>
+        <th class="px-4 py-2">Respuesta Esperada</th>
+        <th class="px-4 py-2">Captura de Referencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for question in test.questions.all %}
+
+      <tr>
+        <td>{{ question.id }}</td>
+        <td>{{ question.questions.question_text }}</td>
+        <td>{{ question.questions.spected_answer }}</td>
+        {% if question.questions.reference_image %}
+        <td><img src="{{ question.questions.reference_image.url }}" alt="Referencia" class="max-w-30 h-auto" /></td>
+        {% else %}
+        <td>No hay Referencia</td>
+        {% endif %}
+        <td>
+          <form method="post" action="{% url 'delete_test_question' question.pk %}" style="display: inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">🗑 Eliminar</button>
+          </form>
+        </td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

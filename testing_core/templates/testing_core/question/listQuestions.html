@@ -18,7 +18,11 @@
       <tr class="hover:bg-blue-50 transition odd:bg-blue-400">
         <td class="px-4 py-2">{{ question.question_text }}</td>
         <td class="px-4 py-2">{{ question.spected_answer }}</td>
+        {% if not question.reference_image %}
+        <td class="px-4 py-2">No hay Imagen de Referencia</td>
+        {% else %}
         <td class="px-4 py-2"><img src="{{ question.reference_image.url }}" class="max-w-30 h-auto"/></td>
+        {% endif %}
       </tr>
       <tr>
         <td class="px-4 py-2">

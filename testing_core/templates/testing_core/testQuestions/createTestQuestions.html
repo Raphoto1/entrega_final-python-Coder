@@ -1,10 +1,12 @@
 {%extends 'main.html'%} 
-{% block header_title %}Crear Test{% endblock %}
-{% block title %}Crear Test{% endblock %}
+{% block header_title %}Agregar Preguntas{% endblock %}
+{% block title %}Agregar Preguntas{% endblock %}
 {% block content %}
+{{test.id}}
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
+
     <button type="submit">Agregar Preguntas</button>
 </form>
 {% endblock %}

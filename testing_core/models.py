@@ -11,7 +11,6 @@ class TestPlatform(models.Model):
 
     def __str__(self):
         return self.name
-
 # form check
 class TestContext(models.Model):
     name = models.CharField(max_length=100)
@@ -30,7 +29,6 @@ class TestContext(models.Model):
 
     def __str__(self):
         return self.name
-
 # form check    
 class App(models.Model):
     user = models.ForeignKey('auth.User', related_name='apps', on_delete=models.CASCADE)
@@ -58,10 +56,10 @@ class FakeUser(models.Model):
 
     def __str__(self):
         return self.name
-    
+#form Check    
 class Test(models.Model):
     creator_user = models.ForeignKey('auth.User', related_name='tests', on_delete=models.CASCADE)
-    fakeUser = models.ForeignKey('fakeUser', related_name='tests', on_delete=models.CASCADE)
+    fakeUser = models.ForeignKey('fakeUser', related_name='tests', on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
     app = models.ForeignKey('app', related_name='tests', on_delete=models.CASCADE)
     test_context = models.ForeignKey(TestContext, related_name='tests', on_delete=models.CASCADE)
@@ -72,7 +70,7 @@ class Test(models.Model):
 
     def __str__(self):
         return self.name
-  
+#form check
 class Question(models.Model):
     question_text = models.CharField(max_length=255)
     spected_answer = models.TextField()
@@ -80,14 +78,23 @@ class Question(models.Model):
 
     def __str__(self):
         return self.question_text
-    
- #form NOT NEEDED   
+#form check   
 class TestQuestion(models.Model):
-    test = models.ForeignKey(Test, related_name='questions', on_delete=models.CASCADE)
-    questions = models.ForeignKey(Question, related_name='tests', on_delete=models.CASCADE)
+    test = models.ForeignKey(Test, related_name='questions', on_delete=models.CASCADE, null=False, blank=False)
+    questions = models.ForeignKey(Question, related_name='tests', on_delete=models.CASCADE, null=False, blank=False)
 
     def __str__(self):
         return f"{self.test.name} - {self.questions.question_text}"
+
+class TestStatus(models.Model):
+    STATUS_CHOICES = [
+        ('draft', 'Borrador'),
+        ('ready', 'Listo para aplicarse'),
+        ('archived', 'Archivado'),
+    ]
+    test = models.OneToOneField(Test, on_delete=models.CASCADE, related_name='testStatus', null=False, blank=False)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft')
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Answers(models.Model):
     test = models.ForeignKey(Test, related_name='answers', on_delete=models.CASCADE)
@@ -97,8 +104,6 @@ class Answers(models.Model):
 
     def __str__(self):
         return f"{self.test.name} - {self.question.question_text}: {self.answer_text}"
-    
-
     
 class TestResult(models.Model):
     user = models.ForeignKey('auth.User', related_name='test_results', on_delete=models.CASCADE)
@@ -124,14 +129,6 @@ class AnswerFeedback(models.Model):
     def __str__(self):
         return f"Feedback by {self.reviewer} on {self.answer}"
     
-class TestStatus(models.Model):
-    test_status_id = models.AutoField(primary_key=True)
-    test = models.ForeignKey(Test, related_name='statuses', on_delete=models.CASCADE, null=True, blank=True)
-    app = models.ForeignKey(App, related_name='statuses', on_delete=models.CASCADE, default=None, null=True, blank=True)
-    user = models.ForeignKey('auth.User', related_name='test_statuses', on_delete=models.CASCADE, null=True, blank=True)
-    status = models.CharField(max_length=50)  # Ejemplo: 'pending', 'in_progress', 'completed'
-    updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return f"{self.test_status_id} - {self.status}"
+
 

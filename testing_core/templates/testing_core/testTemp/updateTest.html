@@ -1,0 +1,11 @@
+{%extends 'main.html'%} 
+{% block header_title %}Actualizar Test{% endblock %}
+{% block title %}Actualizar Test{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Actualizar Test</button>
+</form>
+<a href="{% url 'list_tests' %}" class="text-blue-600 hover:underline">Cancelar</a>
+{% endblock %}

@@ -25,7 +25,8 @@ from testing_core.views import (home, platform,
                                 TestAppCreateView, TestAppListView, TestAppDeleteView, TestAppUpdateView, TestAppDetailView,
                                 FakeUserCreateView, FakeUserListView, FakeUserDeleteView, FakeUserUpdateView, FakeUserDetailView,
                                 QuestionCreateView, QuestionListView, QuestionDeleteView, QuestionUpdateView, QuestionDetailView, QuestionDetailView,
-                                TestCreateView, TestListView, TestUpdateView, TestDeleteView, TestDetailView)
+                                TestCreateView, TestListView, TestUpdateView, TestDeleteView, TestDetailView, 
+                                CreateQuestionsForTests, UpdateQuestionsForTest, DeleteQuestionforTestView)
 
 urlpatterns = [
     path('', home, name='home'),
@@ -61,11 +62,17 @@ urlpatterns = [
     path('updateQuestion/<int:pk>/', QuestionUpdateView.as_view(), name='update_question'),
     path('detailQuestion/<int:pk>/', QuestionDetailView.as_view(), name='detail_question'),
     #tests
-    path('createTest/', TestCreateView.as_view(), name='create_test'),
+    path('createTest/', TestCreateView.as_view(), name='create_test'),  
     path('listTests/', TestListView.as_view(), name='list_tests'),
     path('updateTest/<int:pk>/', TestUpdateView.as_view(), name='update_test'),
     path('deleteTest/<int:pk>/', TestDeleteView.as_view(), name='delete_test'),
     path('detailTest/<int:pk>/', TestDetailView.as_view(), name='detail_test'),
+    #add questions to test
+    path('createQuestionsToTest/<int:test_id>', CreateQuestionsForTests.as_view(), name='create_questions_to_test'),
+    path('tests/<int:test_id>/questions/update/', UpdateQuestionsForTest.as_view(), name='update_questions_for_test'),
+    path('delete-question/<int:pk>/', DeleteQuestionforTestView.as_view(), name='delete_test_question'),
+
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,32 @@
+{% extends "main.html" %} {% block header_title %}Lista de Tests para realizar{% endblock %} {% block title %}Lista de Tests para realizar{% endblock %} {% block content %}
+<table class="min-w-full table-auto border border-gray-300 rounded">
+  <thead class="bg-gray-100">
+    <tr>
+      <th class="px-4 py-2 text-left">Nombre</th>
+      <th class="px-4 py-2 text-left">Estado</th>
+      <th class="px-4 py-2 text-left">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for test in testCommits %}
+      {% if test.status == 'pending' %}
+      <tr class="border-t">
+        <td class="px-4 py-2">{{ test.test }}</td>
+        <td class="px-4 py-2 text-sm text-yellow-600">{{ test.get_status_display }}</td>
+        <td class="px-4 py-2">
+          <a href="{% url 'create_test_commit' %}"
+             class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded">
+            📅 Iniciar
+          </a>
+        </td>
+      </tr>
+      {% endif %}
+    {% empty %}
+    <tr>
+      <td colspan="3" class="px-4 py-2 text-center text-gray-500">No hay tests pendientes.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

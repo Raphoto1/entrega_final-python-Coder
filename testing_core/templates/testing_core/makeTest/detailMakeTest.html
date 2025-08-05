@@ -1,0 +1,57 @@
+{% extends "main.html" %}
+
+{% block header_title %}Realizando test{% endblock %}
+{% block title %}Realizando Test {{ test.name }}{% endblock %}
+
+{% block content %}
+<div>
+  <a href="{% url 'list_tests' %}" class="buttonNeutral">Volver a lista de tests</a>
+
+  <p><strong>Nombre:</strong> {{ test.name }}</p>
+  <p><strong>App:</strong> {{ test.app.name }}</p>
+  <p><strong>Contexto:</strong> {{ test.test_context.name }}</p>
+  <p><strong>Plataforma:</strong> {{ test.test_platform.name }}</p>
+  <p><strong>Descripción:</strong> {{ test.description }}</p>
+  <p><strong>Cantidad de Preguntas:</strong> {{ test.questions.count }}</p>
+
+  <a href="{% url 'update_questions_for_test' test.pk %}" class="btn btn-warning mt-3">
+    🔄 Actualizar preguntas del test
+  </a>
+
+  {% for tq in test_questions %}
+    {% with question=tq.questions %}
+      <div class="border p-4 mb-4">
+        <h2>Pregunta {{ question.id }}</h2>
+        <p>{{ question.question_text }}</p>
+        <p><strong>Respuesta Esperada:</strong> {{ question.spected_answer }}</p>
+
+        {% if question.reference_image %}
+          <img src="{{ question.reference_image.url }}" alt="Referencia" class="max-w-30 h-auto" />
+        {% else %}
+          <p><em>No hay imagen de referencia</em></p>
+        {% endif %}
+
+        <form method="post" action="{% url 'save_answer' test.pk question.id %}">
+          {% csrf_token %}
+          <label for="answer">Respuesta:</label>
+          <input type="text" id="answer" name="answer" required />
+          <button type="submit" class="btn btn-success">Guardar respuesta</button>
+        </form>
+
+       {% for item in answers_by_question %}
+        {% if item.answer %}
+          {% if item.question.id == question.id %}
+          <p><strong>Respuesta registrada:</strong> {{ item.answer }}</p>
+          {%endif%}
+        {% elif item.answer == None %}
+        
+        {% else %}
+          <p><em>No hay respuesta disponible</em></p>
+        {% endif %}
+          </div>
+      {% endfor %}
+          </div>
+    {% endwith %}
+  {% endfor %}
+</div>
+{% endblock %}

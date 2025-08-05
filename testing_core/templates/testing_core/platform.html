@@ -166,8 +166,8 @@
       </div>
     </div>
 
-    <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
-      <h2 class="font-semibold text-blue-800 mb-2">Crear Test</h2>
+    <div class="Tests bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">Tests</h2>
       {% if not apps %}
       <strong class="text-gray-700 text-sm">Debes crear una app primero para crear tests.</strong>
       {% else %}
@@ -175,17 +175,17 @@
       <table>
         <thead>
           <tr>
+            <th class="px-4 py-2">App</th>
             <th class="px-4 py-2">Nombre</th>
-            <th class="px-4 py-2">Descripcion</th>
-            <th class="px-4 py-2">Version</th>
+            <th class="px-4 py-2">Contexto</th>
           </tr>
         </thead>
         <tbody>
           {% for test in tests %}
           <tr class="hover:bg-blue-50 transition odd:bg-blue-400">
-            <td class="px-4 py-2">{{ app.name }}</td>
-            <td class="px-4 py-2">{{ app.description }}</td>
-            <td class="px-4 py-2">{{ app.current_version }}</td>
+            <td class="px-4 py-2">{{ test.app.name}}</td>
+            <td class="px-4 py-2">{{ test.name }}</td>
+            <td class="px-4 py-2">{{ test.test_context }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -199,9 +199,35 @@
       </div>
       {% endif %}
     </div>
-    <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
-      <h2 class="font-semibold text-blue-800 mb-2">Gestión de Usuarios</h2>
-      <p class="text-gray-700 text-sm">Administra los usuarios que participarán en las pruebas.</p>
+    <div class="TestCommits bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
+      <h2 class="font-semibold text-blue-800 mb-2">Estado de Tests</h2>
+      {% if not testCommits %}
+      <strong class="text-gray-700 text-sm">Debes crear una app primero para crear tests.</strong>
+      {% else %}
+      {% if testCommits %}
+      <table>
+        <thead>
+          <tr>
+            <th class="px-4 py-2">Test</th>
+            <th class="px-4 py-2">Stado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for test in testCommits %}
+          <tr class="hover:bg-blue-50 transition odd:bg-blue-400">
+            <td class="px-4 py-2">{{ test.test}}</td>
+            <td class="px-4 py-2">{{ test.status }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="text-gray-700 text-sm">No hay Tests disponibles para hacer.</p>
+      {% endif %}
+      <div class="btnGroup mt-4 flex space-x-4 justify-end align-end">
+        <a href="{% url 'list_test_commit' %}" class="buttonNeutral">Administrar</a>
+      </div>
+      {% endif %}
     </div>
   </div>
 </main>

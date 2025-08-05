@@ -86,25 +86,6 @@ class TestQuestion(models.Model):
     def __str__(self):
         return f"{self.test.name} - {self.questions.question_text}"
 
-class TestStatus(models.Model):
-    STATUS_CHOICES = [
-        ('draft', 'Borrador'),
-        ('ready', 'Listo para aplicarse'),
-        ('archived', 'Archivado'),
-    ]
-    test = models.OneToOneField(Test, on_delete=models.CASCADE, related_name='testStatus', null=False, blank=False)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='draft')
-    updated_at = models.DateTimeField(auto_now=True)
-
-class Answers(models.Model):
-    test = models.ForeignKey(Test, related_name='answers', on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
-    answer_text = models.TextField()
-    answer_image = models.ImageField(upload_to='answers/', null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.test.name} - {self.question.question_text}: {self.answer_text}"
-    
 class TestResult(models.Model):
     user = models.ForeignKey('auth.User', related_name='test_results', on_delete=models.CASCADE)
     test = models.ForeignKey(Test, related_name='results', on_delete=models.CASCADE)
@@ -118,6 +99,45 @@ class TestResult(models.Model):
 
     def __str__(self):
         return f"{self.test.name} - {'Passed' if self.passed else 'Failed'}"
+
+class TestCommit(models.Model):
+    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='commits')
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ('pending', 'Pendiente'),
+            ('running', 'En ejecución'),
+            ('completed', 'Completado'),
+        ],
+        default='pending'
+    )
+    test_result = models.OneToOneField(
+        TestResult,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='commit'
+    )
+    committed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.test.name} | {self.status}"
+    
+    def is_ready_to_run(self):
+        return self.status == 'pending' and self.test_result is None
+
+class Answers(models.Model):
+    test = models.ForeignKey(Test, related_name='answers', on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, related_name='answers', on_delete=models.CASCADE)
+    answer_text = models.TextField()
+    answer_image = models.ImageField(upload_to='answers/', null=True, blank=True)
+    
+    class Meta:
+        unique_together = ('test', 'question')
+
+    def __str__(self):
+        return f"{self.test.name} - {self.question.question_text}: {self.answer_text}"
+    
 
 class AnswerFeedback(models.Model):
     answer = models.ForeignKey(Answers, related_name='feedbacks', on_delete=models.CASCADE)

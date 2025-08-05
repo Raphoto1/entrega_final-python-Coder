@@ -8,6 +8,7 @@
   <p><strong>Plataforma:</strong> {{ test.test_platform.name }}</p>
   <p><strong>Descripción:</strong> {{ test.description }}</p>
   <p><strong>Cantidad de Preguntas:</strong> {{ test.questions.count }}</p>
+  <a href="{% url 'detail_make_test' pk=test.id %}">Hacer Test</a>
   <a href="{% url 'update_questions_for_test' test.pk %}" class="btn btn-warning mt-3"> 🔄 Actualizar preguntas del test </a>
 
   <table>

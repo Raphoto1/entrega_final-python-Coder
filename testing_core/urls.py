@@ -26,7 +26,8 @@ from testing_core.views import (home, platform,
                                 FakeUserCreateView, FakeUserListView, FakeUserDeleteView, FakeUserUpdateView, FakeUserDetailView,
                                 QuestionCreateView, QuestionListView, QuestionDeleteView, QuestionUpdateView, QuestionDetailView, QuestionDetailView,
                                 TestCreateView, TestListView, TestUpdateView, TestDeleteView, TestDetailView, 
-                                CreateQuestionsForTests, UpdateQuestionsForTest, DeleteQuestionforTestView)
+                                CreateQuestionsForTests, UpdateQuestionsForTest, DeleteQuestionforTestView, duplicate_test,
+                                CreateTestCommitView, ListTestCommitView, detail_make_test, save_answer)
 
 urlpatterns = [
     path('', home, name='home'),
@@ -71,8 +72,13 @@ urlpatterns = [
     path('createQuestionsToTest/<int:test_id>', CreateQuestionsForTests.as_view(), name='create_questions_to_test'),
     path('tests/<int:test_id>/questions/update/', UpdateQuestionsForTest.as_view(), name='update_questions_for_test'),
     path('delete-question/<int:pk>/', DeleteQuestionforTestView.as_view(), name='delete_test_question'),
-
-
+    path('duplicate_test/<int:pk>/', duplicate_test, name='duplicate_test'),
+    #testCommits
+    path('createTestCommit/', CreateTestCommitView.as_view(), name='create_test_commit'),
+    path('listTestCommit/', ListTestCommitView.as_view(), name='list_test_commit'),
+    
+    path('detailMakeTest/<int:pk>/', detail_make_test, name='detail_make_test'),
+    path('saveAnswer/<int:pk>/<int:question_id>/', save_answer, name='save_answer'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

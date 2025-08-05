@@ -1,57 +1,35 @@
-{% extends "main.html" %} 
-{% block header_title %}Lista de Tests{% endblock %} {% block title %}Lista de Tests{% endblock %} 
-{% block content %}
-<a href="{% url 'create_test' %}" class="buttonMain">
-          Crear Test
-        </a>
+{% extends "main.html" %} {% block header_title %}Lista de Tests{% endblock %} {% block title %}Lista de Tests{% endblock %} {% block content %}
+<a href="{% url 'create_test' %}" class="buttonMain"> Crear Test </a>
+<a href="{% url 'create_test_commit' %}" class="buttonMain"> Activar Test Para Realizarlo </a>
 <table>
-    <thead>
-        <tr>
-            <th>App</th>
-            <th>Título</th>
-            <th>Descripción</th>
-            <th>cantidad de preguntas</th>
-            <th>Acciones</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for test in tests %}
-        <tr>
-            <td>{{ test.app.name }}</td>
-            <td>{{ test.name }}</td>
-            <td>{{ test.description }}</td>
-            <td>{{ test.questions.count  }}</td>
-            <td>
-                <a href="{% url 'detail_test' pk=test.id %}">Ver</a>
-                <a href="{% url 'update_test' pk=test.id %}">Editar</a>
-                {% comment %} <a href="{% url 'update_questions_to_test' pk=test.id %}">Editar Preguntas</a> {% endcomment %}
-                <a href="{% url 'delete_test' pk=test.id %}">Eliminar</a>
-            </td>
-            <td>
-              <td>
-      <div class="dropdown">
-        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-          {{ test.status.get_status_display }}
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end">
-          {% for key, label in test.statuus.STATUS_CHOICES %}
-            {% if key != test.testStatus.status %}
-              <li>
-                <a class="dropdown-item" href="{% url 'change_test_status' test.pk key %}">
-                  {{ label }}
-                </a>
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
-    </td>
-  
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <th>App</th>
+      <th>Título</th>
+      <th>Descripción</th>
+      <th>cantidad de preguntas</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for test in tests %}
+    <tr>
+      <td>{{ test.app.name }}</td>
+      <td>{{ test.name }}</td>
+      <td>{{ test.description }}</td>
+      <td>{{ test.questions.count }}</td>
+      <td>
+        <a href="{% url 'detail_test' pk=test.id %}">Ver</a>
+        <a href="{% url 'update_test' pk=test.id %}">Editar</a>
+        <a href="{% url 'detail_make_test' pk=test.id %}">Hacer Test</a>
+        <a href="{% url 'delete_test' pk=test.id %}">Eliminar</a>
+        <li>
+          <a class="dropdown-item" href="{% url 'duplicate_test' pk=test.id %}"> 📄 Duplicar test </a>
+        </li>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 
 {% endblock %}

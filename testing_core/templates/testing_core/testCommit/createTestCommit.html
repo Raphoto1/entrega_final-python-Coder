@@ -1,0 +1,10 @@
+{%extends 'main.html'%} 
+{% block header_title %}Activar Test Para Prueba{% endblock %}
+{% block title %}Activar Test Para Prueba{% endblock %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Activar Test</button>
+</form>
+{% endblock %}

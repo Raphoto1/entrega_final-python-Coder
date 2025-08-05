@@ -1,5 +1,5 @@
 from django import forms
-from .models import App, Question, TestContext, TestPlatform, FakeUser, Test, TestQuestion
+from .models import App, Question, TestContext, TestPlatform, FakeUser, Test, TestQuestion, TestCommit, TestResult
 
 class TestPlatformForm(forms.ModelForm):
     class Meta:
@@ -94,5 +94,15 @@ class TestQuestionForm(forms.Form):
             raise forms.ValidationError("Debes seleccionar al menos una pregunta.")
         return data
 
+class TestCommitForm(forms.ModelForm):
+    class Meta:
+        model = TestCommit
+        fields = ['test']  # Solo elegís el test; el status y el test_result se manejan internamente
+
+    def clean_test(self):
+        test = self.cleaned_data['test']
+        if TestCommit.objects.filter(test=test, status='pending').exists():
+            raise forms.ValidationError("Ya existe un commit pendiente para este test.")
+        return test
 
 

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect, render
@@ -6,8 +7,8 @@ from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView, FormView
 from django.contrib.auth.decorators import login_required
 
-from testing_core.forms import TestPlatformForm, TestContextForm, TestForm, AppForm, FakeUserForm, QuestionForm, TestQuestionForm
-from testing_core.models import FakeUser, TestPlatform, TestContext, Test, Question, TestQuestion, Answers, App
+from testing_core.forms import TestPlatformForm, TestContextForm, TestForm, AppForm, FakeUserForm, QuestionForm, TestQuestionForm, TestCommitForm
+from testing_core.models import FakeUser, TestPlatform, TestContext, Test, Question, TestQuestion, Answers, App, TestCommit, TestResult
 
 
 # Create your views here.
@@ -21,7 +22,9 @@ def platform(request):
     testApps = App.objects.all()
     FakeUsers = FakeUser.objects.all()
     Questions = Question.objects.all()
-    return render(request, 'testing_core/platform.html', {'testPlatform': testPlatform, 'testContext': testContext, 'apps': testApps, 'FakeUsers': FakeUsers, 'Questions': Questions})
+    tests = Test.objects.all()
+    testCommits = TestCommit.objects.all()
+    return render(request, 'testing_core/platform.html', {'testPlatform': testPlatform, 'testContext': testContext, 'apps': testApps, 'FakeUsers': FakeUsers, 'Questions': Questions, 'tests' : tests, 'testCommits': testCommits})
 
 
 #platform
@@ -251,8 +254,7 @@ class DeleteQuestionforTestView(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('detail_test', kwargs={'pk': self.object.test.pk})
-
-    
+  
 class CreateQuestionsForTests(FormView):
     form_class = TestQuestionForm
     template_name = 'testing_core/testQuestions/createTestQuestions.html' 
@@ -315,3 +317,147 @@ class UpdateQuestionsForTest(FormView):
         print("DEBUG UpdateView — errores:", form.errors)
         return super().form_invalid(form)
 
+# Función para duplicar un Test
+
+def duplicate_test(request, pk):
+    original = get_object_or_404(Test, pk=pk)
+
+    # Duplicamos el objeto Test
+    copy = Test.objects.create(
+        app=original.app,
+        name=f"{original.name} (copia)",
+        description=original.description,
+        creator_user=original.creator_user,
+        test_context=original.test_context,
+        test_platform=original.test_platform,
+        # Podés setear otras propiedades si es necesario
+    )
+
+    # Duplicamos preguntas si son relaciones M2M
+    for tq in original.questions.all():  # gracias al related_name='questions'
+        TestQuestion.objects.create(
+            test=copy,
+            questions=tq.questions,  # copiamos la misma pregunta
+        )
+
+    messages.success(request, f"Test duplicado con sus preguntas: {copy.name}")
+    return redirect("list_tests")
+
+#testCommit
+
+class CreateTestCommitView(CreateView):
+    model = TestCommit
+    form_class = TestCommitForm
+    template_name = 'testing_core/testCommit/createTestCommit.html'
+    success_url = reverse_lazy('list_test_commit')
+
+    def form_valid(self, form):
+        form.instance.status = 'pending'
+        return super().form_valid(form)
+
+class ListTestCommitView(ListView):
+    model = TestCommit
+    template_name = 'testing_core/testCommit/listTestCommits.html'
+    context_object_name = 'testCommits'
+
+#make Test
+
+class CreateMakeTest(CreateView):
+    model = Test
+    template_name = 'testing_core/testTemp/createTest.html'
+    success_url = '/listTests/'
+
+    def get(self, request, *args, **kwargs):
+        test = Test()
+        questions = Question.objects.all()
+        return self.render_to_response({'test': test, 'questions': questions})
+
+    def post(self, request, *args, **kwargs):
+        # Recuperamos los datos del formulario
+        test_name = request.POST.get('name')
+        test_description = request.POST.get('description')
+
+        test_platform_id = request.POST.get('testPlatform')
+        test_context_id = request.POST.get('testContext')
+
+        questions_ids = request.POST.getlist('questions')
+
+        # Creamos el nuevo Test
+        new_test = Test()
+        new_test.name = test_name
+        new_test.description = test_description
+
+        # Asignamos la plataforma y contexto
+        test_platform = get_object_or_404(TestPlatform, pk=test_platform_id)
+        test_context = get_object_or_404(TestContext, pk=test_context_id)
+        new_test.test_platform = test_platform
+        new_test.test_context = test_context
+
+        # Creamos las preguntas relacionadas con el Test
+        for question_id in questions_ids:
+            question = get_object_or_404(Question, pk=question_id)
+            new_test.questions.add(question)
+
+        # Guardamos el nuevo Test en la base de datos
+        new_test.save()
+
+        return self.get_success_response(new_test.pk)
+
+    def get_success_response(self, test_pk):
+        messages.success(self.request, f'Test creado correctamente: {test_pk}')
+        return redirect('detail_test', pk=test_pk)
+    
+from testing_core.models import TestQuestion, Question, Answers
+
+def detail_make_test(request, pk):
+    test = get_object_or_404(Test, pk=pk)
+    test_questions = TestQuestion.objects.filter(test=test).select_related('questions')
+
+    answers_by_question = []
+
+    for tq in test_questions:
+        question = tq.questions
+        try:
+            answer_obj = Answers.objects.get(test=test, question=question)
+            answer_text = answer_obj.answer_text
+        except Answers.DoesNotExist:
+            answer_text = None
+
+        answers_by_question.append({
+            'question': question,
+            'answer': answer_text
+        })
+    context = {
+        'test': test,
+        'test_questions': test_questions,
+        'answers_by_question': answers_by_question,
+    }
+
+    return render(request, 'testing_core/makeTest/detailMakeTest.html', context)
+
+
+
+
+
+
+
+def save_answer(request, pk, question_id):
+    test = get_object_or_404(Test, pk=pk)
+    question = get_object_or_404(Question, pk=question_id)
+    answer_text = request.POST.get('answer')
+
+    obj, created = Answers.objects.update_or_create(
+        test=test,
+        question=question,
+        defaults={'answer_text': answer_text}
+    )
+
+    if created:
+        messages.success(request, "Respuesta registrada correctamente.")
+    else:
+        messages.info(request, "Respuesta actualizada para esta pregunta.")
+
+    return redirect('detail_make_test', pk=test.pk)
+
+
+    

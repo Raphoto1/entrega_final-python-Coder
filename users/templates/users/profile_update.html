@@ -2,7 +2,7 @@
 {% block header_title %}Actualizar Profile{% endblock %}
 {% block title %}Actualizar Profile{% endblock %}
 {% block content %}
-<h2>Editar Perfil</h2>
+<h1>Editar Perfil</h1>
 
   <!-- Formulario para actualizar datos y avatar -->
   <form method="post" enctype="multipart/form-data">
@@ -18,7 +18,7 @@
           {% endif %}
           {{ avatar_form.as_p }}
       </fieldset>
-      <button type="submit" name="profile_update">Actualizar Perfil y Avatar</button>
+      <button type="submit" name="profile_update" class='buttonMain'>Actualizar Perfil y Avatar</button>
   </form>
 
   <hr>
@@ -30,6 +30,6 @@
           <legend>Cambiar Contraseña</legend>
           {{ password_form.as_p }}
       </fieldset>
-      <button type="submit" name="change_password">Cambiar Contraseña</button>
+      <button type="submit" name="change_password" class='buttonMain'>Cambiar Contraseña</button>
   </form>
 {% endblock %}

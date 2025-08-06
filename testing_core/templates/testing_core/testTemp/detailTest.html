@@ -25,12 +25,12 @@
     <tbody>
       {% for question in test.questions.all %}
 
-      <tr class='h-fit'>
+      <tr class="hover:bg-blue-50 transition odd:bg-blue-400">
         <td>{{ question.id }}</td>
         <td>{{ question.questions.question_text }}</td>
         <td>{{ question.questions.spected_answer }}</td>
         {% if question.questions.reference_image %}
-        <td><img src="{{ question.questions.reference_image.url }}" alt="Referencia" class="max-w-30 h-auto" /></td>
+        <td><img src="{{ question.questions.reference_image.url }}" alt="Referencia" class="max-w-20 h-auto" /></td>
         {% else %}
         <td>No hay Referencia</td>
         {% endif %}

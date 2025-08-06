@@ -6,9 +6,9 @@
     {% csrf_token %}
     {{ role_form.as_p }}
     {% if user.role %}
-    <button type="submit">Actualizar Roles</button>
+    <button type="submit" class='buttonMain'>Actualizar Roles</button>
     {% else %}
-    <button type="submit">Agregar Rol</button>
+    <button type="submit" class='buttonMain'>Agregar Rol</button>
     {% endif %}
 </form>
 {% endblock %}

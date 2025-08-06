@@ -27,11 +27,12 @@ from testing_core.views import (home, platform,
                                 QuestionCreateView, QuestionListView, QuestionDeleteView, QuestionUpdateView, QuestionDetailView, QuestionDetailView,
                                 TestCreateView, TestListView, TestUpdateView, TestDeleteView, TestDetailView, 
                                 CreateQuestionsForTests, UpdateQuestionsForTest, DeleteQuestionforTestView, duplicate_test,
-                                CreateTestCommitView, ListTestCommitView, detail_make_test, save_answer)
+                                CreateTestCommitView, ListTestCommitView, detail_make_test, save_answer, about)
 
 urlpatterns = [
     path('', home, name='home'),
     path('platform/', platform, name='platform'),
+    path('about/', about, name='about'),
     # Platforms
     path('createPlatform/', TestPlatformCreateView.as_view(), name='create_platform'),
     path('listPlatforms/', TestPlatformListView.as_view(), name='list_platforms'),

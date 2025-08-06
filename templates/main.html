@@ -18,8 +18,7 @@
         <div class="hidden md:flex space-x-6 align-center h-20">
           <a href="{% url 'home' %}" class="hover:text-blue-200 buttonNeutral">Inicio</a>
           <a href="{% url 'platform' %}" class="hover:text-blue-200 buttonNeutral">Plataforma</a>
-          <a href="#" class="hover:text-blue-200 buttonNeutral">About</a>
-          <a href="#" class="hover:text-blue-200 buttonNeutral">Contacto</a>
+          <a href="{% url 'about' %}" class="hover:text-blue-200 buttonNeutral">About</a>
           {% if user.is_authenticated %}
           <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
@@ -37,13 +36,6 @@
           </svg>
         </button>
       </div>
-      <!-- Mobile Menu -->
-      <div id="mobile-menu" class="md:hidden px-4 pb-4 hidden">
-        <a href="#" class="block py-2 hover:text-blue-200">Inicio</a>
-        <a href="#" class="block py-2 hover:text-blue-200">Guía</a>
-        <a href="#" class="block py-2 hover:text-blue-200">Recursos</a>
-        <a href="#" class="block py-2 hover:text-blue-200">Contacto</a>
-      </div>
     </nav>
 
     <!-- Main Content -->
@@ -54,13 +46,5 @@
         <p class="text-center text-sm">&copy; 2025 Pruebas Manuales de Aplicaciones. Todos los derechos reservados.</p>
       </div>
     </footer>
-    <script>
-      // Menú responsive
-      const menuBtn = document.getElementById("menu-btn");
-      const mobileMenu = document.getElementById("mobile-menu");
-      menuBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
-      });
-    </script>
   </body>
 </html>

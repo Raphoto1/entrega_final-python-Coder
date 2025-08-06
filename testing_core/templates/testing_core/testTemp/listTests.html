@@ -12,12 +12,12 @@
   </thead>
   <tbody>
     {% for test in tests %}
-    <tr>
-      <td>{{ test.app.name }}</td>
-      <td>{{ test.name }}</td>
-      <td>{{ test.description }}</td>
-      <td>{{ test.questions.count }}</td>
-      <td>
+    <tr class="hover:bg-blue-50 transition odd:bg-blue-400">
+      <td class="px-4 py-2">{{ test.app.name }}</td>
+      <td class="px-4 py-2">{{ test.name }}</td>
+      <td class="px-4 py-2">{{ test.description }}</td>
+      <td class="px-4 py-2">{{ test.questions.count }}</td>
+      <td class="px-4 py-2">
         <a href="{% url 'detail_test' pk=test.id %}" class="text-blue-600 hover:underline mr-2">Ver</a>
         <a href="{% url 'update_test' pk=test.id %}" class="text-blue-600 hover:underline mr-2">Editar</a>
         <a href="{% url 'delete_test' pk=test.id %}" class="text-red-600 hover:underline">Eliminar</a>

@@ -49,9 +49,6 @@ class FakeUserForm(forms.ModelForm):
     class Meta:
         model = FakeUser
         fields = ['name', 'last_name', 'fake_username', 'email', 'password', 'phone_number', 'age']
-        widgets = {
-            'password': forms.PasswordInput(),
-        }
         labels = {
             'name': 'Nombre',
             'last_name': 'Apellido',

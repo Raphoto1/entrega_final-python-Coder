@@ -6,14 +6,18 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, DetailView, FormView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from testing_core.forms import TestPlatformForm, TestContextForm, TestForm, AppForm, FakeUserForm, QuestionForm, TestQuestionForm, TestCommitForm
-from testing_core.models import FakeUser, TestPlatform, TestContext, Test, Question, TestQuestion, Answers, App, TestCommit, TestResult
+from testing_core.models import FakeUser, TestPlatform, TestContext, Test, Question, TestQuestion, Answers, App, TestCommit, TestResult, TestQuestion, Question, Answers
 
 
 # Create your views here.
 def home(request):
     return render(request, 'testing_core/home.html')
+
+def about(request):
+    return render(request, 'testing_core/about.html')
 
 @login_required
 def platform(request):
@@ -28,7 +32,7 @@ def platform(request):
 
 
 #platform
-class TestPlatformCreateView(CreateView):
+class TestPlatformCreateView(LoginRequiredMixin, CreateView):
     model = TestPlatform
     form_class = TestPlatformForm
     template_name = 'testing_core/testPlatform/createPlatform.html'
@@ -37,12 +41,12 @@ class TestPlatformCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class TestPlatformListView(ListView):
+class TestPlatformListView(LoginRequiredMixin, ListView):
     model = TestPlatform
     template_name = 'testing_core/testPlatform/listPlatforms.html'
     context_object_name = 'test_platforms'
     
-class TestPlatformUpdateView(UpdateView):
+class TestPlatformUpdateView(LoginRequiredMixin, UpdateView):
     model = TestPlatform
     form_class = TestPlatformForm
     template_name = 'testing_core/testPlatform/updatePlatform.html'
@@ -51,19 +55,19 @@ class TestPlatformUpdateView(UpdateView):
     def form_valid(self, form):
         return super().form_valid(form)
 
-class TestPlatformDeleteView(DeleteView):
+class TestPlatformDeleteView(LoginRequiredMixin, DeleteView):
     model = TestPlatform
     template_name = 'testing_core/testPlatform/deletePlatform.html'
     context_object_name = 'test_platform'
     success_url = '/listPlatforms/'
 
-class TestPlatformDetailView(DetailView):
+class TestPlatformDetailView(LoginRequiredMixin, DetailView):
     model = TestPlatform
     template_name = 'testing_core/testPlatform/detailPlatform.html'
     context_object_name = 'test_platform'
     
 #context
-class TestContextCreateView(CreateView):
+class TestContextCreateView(LoginRequiredMixin, CreateView):
     model = TestContext
     form_class = TestContextForm
     template_name = 'testing_core/testContext/createContext.html'
@@ -72,12 +76,12 @@ class TestContextCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class TestContextListView(ListView):
+class TestContextListView(LoginRequiredMixin, ListView):
     model = TestContext
     template_name = 'testing_core/testContext/listContext.html'
     context_object_name = 'test_contexts'
 
-class TestContextUpdateView(UpdateView):
+class TestContextUpdateView(LoginRequiredMixin, UpdateView):
     model = TestContext
     form_class = TestContextForm
     template_name = 'testing_core/testContext/updateContext.html'
@@ -86,19 +90,19 @@ class TestContextUpdateView(UpdateView):
     def form_valid(self, form):
         return super().form_valid(form)
 
-class TestContextDeleteView(DeleteView):
+class TestContextDeleteView(LoginRequiredMixin, DeleteView):
     model = TestContext
     template_name = 'testing_core/testContext/deleteContext.html'
     context_object_name = 'test_context'
     success_url = '/listContext/'
 
-class TestContextDetailView(DetailView):
+class TestContextDetailView(LoginRequiredMixin, DetailView):
     model = TestContext
     template_name = 'testing_core/testContext/detailContext.html'
     context_object_name = 'test_context'
     
 #app
-class TestAppCreateView(CreateView):
+class TestAppCreateView(LoginRequiredMixin, CreateView):
     model = App
     form_class = AppForm
     template_name = 'testing_core/testApp/createApp.html'
@@ -111,12 +115,12 @@ class TestAppCreateView(CreateView):
         form.save_m2m()  # Guarda relaciones ManyToMany
         return super().form_valid(form)
     
-class TestAppListView(ListView):
+class TestAppListView(LoginRequiredMixin, ListView):
     model = App
     template_name = 'testing_core/testApp/listApps.html'
     context_object_name = 'test_apps'
     
-class TestAppUpdateView(UpdateView):
+class TestAppUpdateView(LoginRequiredMixin, UpdateView):
     model = App
     form_class = AppForm
     template_name = 'testing_core/testApp/updateApp.html'
@@ -125,19 +129,19 @@ class TestAppUpdateView(UpdateView):
     def form_valid(self, form):
         return super().form_valid(form)
 
-class TestAppDeleteView(DeleteView):
+class TestAppDeleteView(LoginRequiredMixin, DeleteView):
     model = App
     template_name = 'testing_core/testApp/deleteApp.html'
     context_object_name = 'test_app'
     success_url = '/listApps/'
 
-class TestAppDetailView(DetailView):
+class TestAppDetailView(LoginRequiredMixin, DetailView):
     model = App
     template_name = 'testing_core/testApp/detailApp.html'
     context_object_name = 'test_app'
     
 #fakeUser
-class FakeUserCreateView(CreateView):
+class FakeUserCreateView(LoginRequiredMixin, CreateView):
     model = FakeUser
     form_class = FakeUserForm
     template_name = 'testing_core/fakeUser/createFakeUser.html'
@@ -146,12 +150,12 @@ class FakeUserCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class FakeUserListView(ListView):
+class FakeUserListView(LoginRequiredMixin, ListView):
     model = FakeUser
     template_name = 'testing_core/fakeUser/listFakeUser.html'
     context_object_name = 'fake_users'
     
-class FakeUserUpdateView(UpdateView):
+class FakeUserUpdateView(LoginRequiredMixin, UpdateView):
     model = FakeUser
     form_class = FakeUserForm
     template_name = 'testing_core/fakeUser/updateFakeUser.html'
@@ -160,19 +164,19 @@ class FakeUserUpdateView(UpdateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class FakeUserDeleteView(DeleteView):
+class FakeUserDeleteView(LoginRequiredMixin, DeleteView):
     model = FakeUser
     template_name = 'testing_core/fakeUser/deleteFakeUser.html'
     context_object_name = 'fake_user'
     success_url = '/listFakeUsers/'
     
-class FakeUserDetailView(DetailView):
+class FakeUserDetailView(LoginRequiredMixin, DetailView):
     model = FakeUser
     template_name = 'testing_core/fakeUser/detailFakeUser.html'
     context_object_name = 'fake_user'
     
 #question
-class QuestionCreateView(CreateView):  
+class QuestionCreateView(LoginRequiredMixin, CreateView):  
     model = Question
     form_class = QuestionForm
     template_name = 'testing_core/question/createQuestion.html'
@@ -181,12 +185,12 @@ class QuestionCreateView(CreateView):
     def form_valid(self, form):
         return super().form_valid(form)
     
-class QuestionListView(ListView):
+class QuestionListView(LoginRequiredMixin, ListView):
     model = Question
     template_name = 'testing_core/question/listQuestions.html'
     context_object_name = 'questions'
     
-class QuestionUpdateView(UpdateView):
+class QuestionUpdateView(LoginRequiredMixin, UpdateView):
     model = Question
     form_class = QuestionForm
     template_name = 'testing_core/question/updateQuestion.html'
@@ -195,19 +199,19 @@ class QuestionUpdateView(UpdateView):
     def form_valid(self, form):
         return super().form_valid(form)
 
-class QuestionDeleteView(DeleteView):
+class QuestionDeleteView(LoginRequiredMixin, DeleteView):
     model = Question
     template_name = 'testing_core/question/deleteQuestion.html'
     context_object_name = 'question'
     success_url = '/listQuestions/'
     
-class QuestionDetailView(DetailView):
+class QuestionDetailView(LoginRequiredMixin, DetailView):
     model = Question
     template_name = 'testing_core/question/detailQuestion.html'
     context_object_name = 'question'
 
 #tests
-class TestCreateView(CreateView):
+class TestCreateView(LoginRequiredMixin, CreateView):
     model = Test
     form_class = TestForm
     template_name = 'testing_core/testTemp/createTest.html'
@@ -223,12 +227,12 @@ class TestCreateView(CreateView):
         form.save_m2m()  # Guarda relaciones ManyToMany
         return super().form_valid(form)
     
-class TestListView(ListView):
+class TestListView(LoginRequiredMixin, ListView):
     model = Test
     template_name = 'testing_core/testTemp/listTests.html'
     context_object_name = 'tests'
     
-class TestUpdateView(UpdateView):
+class TestUpdateView(LoginRequiredMixin, UpdateView):
     model = Test
     form_class = TestForm
     template_name = 'testing_core/testTemp/updateTest.html'
@@ -237,25 +241,25 @@ class TestUpdateView(UpdateView):
     def form_valid(self, form):
         return super().form_valid(form)   
     
-class TestDeleteView(DeleteView):
+class TestDeleteView(LoginRequiredMixin, DeleteView):
     model = Test
     template_name = 'testing_core/testTemp/deleteTest.html'
     context_object_name = 'test'
     success_url = '/listTests/'
     
-class TestDetailView(DetailView):
+class TestDetailView(LoginRequiredMixin, DetailView):
     model = Test
     template_name = 'testing_core/testTemp/detailTest.html'
     context_object_name = 'test'
         
-class DeleteQuestionforTestView(DeleteView):
+class DeleteQuestionforTestView(LoginRequiredMixin, DeleteView):
     model = TestQuestion
     template_name = 'testing_core/testQuestions/deleteTestQuestions.html'
 
     def get_success_url(self):
         return reverse_lazy('detail_test', kwargs={'pk': self.object.test.pk})
   
-class CreateQuestionsForTests(FormView):
+class CreateQuestionsForTests(LoginRequiredMixin, FormView):
     form_class = TestQuestionForm
     template_name = 'testing_core/testQuestions/createTestQuestions.html' 
 
@@ -287,7 +291,7 @@ class CreateQuestionsForTests(FormView):
         print("DEBUG Vista — errores:", form.errors)
         return super().form_invalid(form)
 
-class UpdateQuestionsForTest(FormView):
+class UpdateQuestionsForTest(LoginRequiredMixin, FormView):
     form_class = TestQuestionForm
     template_name = 'testing_core/testQuestions/updateTestQuestions.html'
 
@@ -318,7 +322,7 @@ class UpdateQuestionsForTest(FormView):
         return super().form_invalid(form)
 
 # Función para duplicar un Test
-
+@login_required
 def duplicate_test(request, pk):
     original = get_object_or_404(Test, pk=pk)
 
@@ -343,9 +347,9 @@ def duplicate_test(request, pk):
     messages.success(request, f"Test duplicado con sus preguntas: {copy.name}")
     return redirect("list_tests")
 
-#testCommit
+#testCommit desarrollo futuro
 
-class CreateTestCommitView(CreateView):
+class CreateTestCommitView(LoginRequiredMixin, CreateView):
     model = TestCommit
     form_class = TestCommitForm
     template_name = 'testing_core/testCommit/createTestCommit.html'
@@ -355,14 +359,14 @@ class CreateTestCommitView(CreateView):
         form.instance.status = 'pending'
         return super().form_valid(form)
 
-class ListTestCommitView(ListView):
+class ListTestCommitView(LoginRequiredMixin, ListView):
     model = TestCommit
     template_name = 'testing_core/testCommit/listTestCommits.html'
     context_object_name = 'testCommits'
 
 #make Test
 
-class CreateMakeTest(CreateView):
+class CreateMakeTest(LoginRequiredMixin, CreateView):
     model = Test
     template_name = 'testing_core/testTemp/createTest.html'
     success_url = '/listTests/'
@@ -406,9 +410,8 @@ class CreateMakeTest(CreateView):
     def get_success_response(self, test_pk):
         messages.success(self.request, f'Test creado correctamente: {test_pk}')
         return redirect('detail_test', pk=test_pk)
-    
-from testing_core.models import TestQuestion, Question, Answers
 
+@login_required  
 def detail_make_test(request, pk):
     test = get_object_or_404(Test, pk=pk)
     test_questions = TestQuestion.objects.filter(test=test).select_related('questions')
@@ -435,12 +438,7 @@ def detail_make_test(request, pk):
 
     return render(request, 'testing_core/makeTest/detailMakeTest.html', context)
 
-
-
-
-
-
-
+@login_required
 def save_answer(request, pk, question_id):
     test = get_object_or_404(Test, pk=pk)
     question = get_object_or_404(Question, pk=question_id)

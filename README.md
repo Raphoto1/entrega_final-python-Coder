@@ -1,6 +1,7 @@
 # Pruebas Manuales
 ======================
-
+## LINK VIDEO:
+https://1drv.ms/v/c/ecff70a3a9e02587/EWYQh6CCJVxGo-IJRkyGXaABh7_JOSUhkpAx_2AdbGMudg?e=wFnIUk
 ## Descripción
 ---------------
 

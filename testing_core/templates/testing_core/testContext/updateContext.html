@@ -5,7 +5,7 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Actualizar Contexto</button>
+    <button type="submit" class='buttonMain'>Actualizar Contexto</button>
 </form>
-<a href="{% url 'list_contexts' %}" class="text-blue-600 hover:underline">Cancelar</a>
+    <a href="{% url 'list_contexts' %}" class="buttonCancel">Cancelar</a>
 {% endblock %}

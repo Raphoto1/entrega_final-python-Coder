@@ -1,6 +1,7 @@
 {% extends "main.html" %}
 {% block header_title %}Detalle FakeUser{% endblock %} {% block title %}Fake User {{ fake_user.name }}{% endblock %}
 {% block content %}
+<button type="button" class='buttonNeutral' onclick="history.back()">Atras</button>
 <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
       <h2 class="font-semibold text-blue-800 mb-2">Detalle de FakeUser</h2>
       <p><strong>Nombre:</strong> {{ fake_user.name }}</p>

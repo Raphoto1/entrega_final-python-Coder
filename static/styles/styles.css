@@ -54,3 +54,104 @@
   outline: none;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
 }
+
+.buttonCancel{
+  background-color: #dc3545;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+form{
+  background-color: #dbeafe;      /* bg-blue-100 */
+  padding: 1rem;                  /* p-4 */
+  border-radius: 0.5rem;          /* rounded */
+  max-width: 56rem;               /* max-w-4xl */
+  margin-left: auto;              /* mx-auto */
+  margin-right: auto;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* shadow */
+  transition: all 0.2s ease-in-out;          /* transition */
+  margin-top: 1.25rem;
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151; /* text-gray-700 */
+  margin-bottom: 0.25rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db; /* border-gray-300 */
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  font-size: 0.875rem;
+  background-color: #ffffff;
+  color: #111827; /* text-gray-900 */
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #3b82f6; /* blue-500 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  height: 1rem;
+  width: 1rem;
+  color: #3b82f6;
+  border: 1px solid #d1d5db;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #2563eb; /* blue-600 */
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #1d4ed8; /* blue-700 */
+}
+
+fieldset {
+  border: 1px solid #d1d5db;
+  padding: 1rem;
+  border-radius: 0.375rem;
+}
+
+legend {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937; /* text-gray-800 */
+  margin-bottom: 0.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-error {
+  font-size: 0.75rem;
+  color: #dc2626; /* red-600 */
+  margin-top: 0.25rem;
+}

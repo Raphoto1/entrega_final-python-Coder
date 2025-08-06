@@ -15,15 +15,15 @@
     <nav class="bg-blue-700 text-white">
       <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <div class="text-2xl font-bold">{% block title %}Testing Manual{% endblock %}</div>
-        <div class="hidden md:flex space-x-6">
-          <a href="{% url 'home' %}" class="hover:text-blue-200">Inicio</a>
-          <a href="{% url 'platform' %}" class="hover:text-blue-200">Plataforma</a>
-          <a href="#" class="hover:text-blue-200">About</a>
-          <a href="#" class="hover:text-blue-200">Contacto</a>
+        <div class="hidden md:flex space-x-6 align-center h-20">
+          <a href="{% url 'home' %}" class="hover:text-blue-200 buttonNeutral">Inicio</a>
+          <a href="{% url 'platform' %}" class="hover:text-blue-200 buttonNeutral">Plataforma</a>
+          <a href="#" class="hover:text-blue-200 buttonNeutral">About</a>
+          <a href="#" class="hover:text-blue-200 buttonNeutral">Contacto</a>
           {% if user.is_authenticated %}
           <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
-            <button type="submit" class="hover:text-blue-200">Cerrar sesión</button>
+            <button type="submit" class="hover:text-blue-200 buttonCancel">Cerrar sesión</button>
           </form>
           <a href="{% url 'profile' %}" class="hover:text-blue-200">Perfil</a>
           {% else %}

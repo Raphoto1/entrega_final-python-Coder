@@ -14,6 +14,20 @@ class TestContextForm(forms.ModelForm):
             'mobile_number', 'mobile_contract', 'signal_strength',
             'connection_speed', 'web', 'web_browser', 'description'
         ]
+        labels ={
+            'name': 'Nombre',
+            'test_platform': 'Plataforma de Pruebas',
+            'mobile': 'Dispositivo Móvil',
+            'mobile_carrier': 'Operador Móvil',
+            'mobile_number': 'Número de Teléfono',
+            'mobile_contract': 'Contrato Móvil',
+            'signal_strength': 'Fuerza de Señal',
+            'connection_speed': 'Velocidad de Conexión',
+            'web': 'Dispositivo Web',
+            'web_browser': 'Navegador Web',
+            'description': 'Descripción'
+        }
+        
         
 class AppForm(forms.ModelForm):
     test_platforms = forms.ModelMultipleChoiceField(

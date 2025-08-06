@@ -1,6 +1,7 @@
 {% extends "main.html" %} 
 {% block header_title %}Detalle Contexto{% endblock %} {% block title %}Contexto {{ test_context.name }}{% endblock %} 
 {% block content %}
+<button type="button" class='buttonNeutral' onclick="history.back()">Atras</button>
 <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
       <h2 class="font-semibold text-blue-800 mb-2">Detalle de Contexto</h2>
       <p><strong>Nombre:</strong> {{ test_context.name }}</p>

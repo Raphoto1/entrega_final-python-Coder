@@ -5,6 +5,7 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Crear Contexto</button>
+    <button type="submit" class='buttonMain'>Crear Contexto</button>
+    <button type="button" class='buttonCancel' onclick="history.back()">Cancelar</button>
 </form>
 {% endblock %}

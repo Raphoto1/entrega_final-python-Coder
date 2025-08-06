@@ -5,7 +5,7 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Actualizar Fake User</button>
+    <button type="submit" class='buttonMain mt-5'>Actualizar Fake User</button>
 </form>
-<a href="{% url 'list_fake_users' %}" class="text-blue-600 hover:underline">Cancelar</a>
+<a href="{% url 'list_fake_users' %}" class="buttonCancel">Cancelar</a>
 {% endblock %}

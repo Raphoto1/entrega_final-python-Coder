@@ -3,7 +3,8 @@
 {% block content %}
 <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
   <h2 class="font-semibold text-blue-800 mb-2">Lista de Apps</h2>
-  <a href="{% url 'create_app' %}" class="buttonMain"> Crear App </a>
+  <a href="{% url 'platform' %}" class="buttonNeutral">Atras</a>
+  
   {% if test_apps %}
   <table class="max-w-full">
     <thead>
@@ -41,5 +42,6 @@
   {% else %}
   <p>No hay contextos disponibles.</p>
   {% endif %}
+  <a href="{% url 'create_app' %}" class="buttonMain"> Crear App </a>
 </div>
 {% endblock %}

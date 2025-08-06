@@ -2,7 +2,9 @@
 {% block header_title %}Lista de Plataformas{% endblock %} {% block title %}Lista de Plataformas{% endblock %} 
 {% block content %}
     <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
-      <h2 class="font-semibold text-blue-800 mb-2">Lista de plataformas</h2>
+      <a href="{% url 'platform' %}" class="buttonNeutral">Atras</a>
+
+      <h2 class="font-semibold text-blue-800 mb-2 mt-2">Lista de plataformas</h2>
       {% if test_platforms %}
       <table>
         <thead>
@@ -29,7 +31,7 @@
       <p class="text-gray-700 text-sm">No hay plataformas disponibles.</p>
       {% endif %}
       <a href="{% url 'create_platform' %}">
-        <button class="mt-2 button main hover:underline" href="{% url 'create_platform' %}">Crear Plataforma</button>
+        <button class="buttonMain mt-2 button main hover:underline" href="{% url 'create_platform' %}">Crear Plataforma</button>
       </a>
     </div>
   

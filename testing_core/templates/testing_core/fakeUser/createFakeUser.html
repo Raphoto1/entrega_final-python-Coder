@@ -5,6 +5,7 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Crear Fake User</button>
+    <button type="submit" class='buttonMain mt-5'>Crear Fake User</button>
 </form>
+<button type="button" class='buttonCancel' onclick="history.back()">Cancelar</button>
 {% endblock %}

@@ -1,7 +1,6 @@
 {% extends "main.html" %} {% block header_title %}Lista de Tests{% endblock %} {% block title %}Lista de Tests{% endblock %} {% block content %}
-<a href="{% url 'create_test' %}" class="buttonMain"> Crear Test </a>
-<a href="{% url 'create_test_commit' %}" class="buttonMain"> Activar Test Para Realizarlo </a>
-<table>
+<button type="button" class='buttonNeutral' onclick="history.back()">Atras</button>
+<table class="h-64 w-full table-auto">
   <thead>
     <tr>
       <th>App</th>
@@ -19,10 +18,10 @@
       <td>{{ test.description }}</td>
       <td>{{ test.questions.count }}</td>
       <td>
-        <a href="{% url 'detail_test' pk=test.id %}">Ver</a>
-        <a href="{% url 'update_test' pk=test.id %}">Editar</a>
-        <a href="{% url 'detail_make_test' pk=test.id %}">Hacer Test</a>
-        <a href="{% url 'delete_test' pk=test.id %}">Eliminar</a>
+        <a href="{% url 'detail_test' pk=test.id %}" class="text-blue-600 hover:underline mr-2">Ver</a>
+        <a href="{% url 'update_test' pk=test.id %}" class="text-blue-600 hover:underline mr-2">Editar</a>
+        <a href="{% url 'delete_test' pk=test.id %}" class="text-red-600 hover:underline">Eliminar</a>
+        <a href="{% url 'detail_make_test' pk=test.id %}" class='buttonMain'>Hacer Test</a>
         <li>
           <a class="dropdown-item" href="{% url 'duplicate_test' pk=test.id %}"> 📄 Duplicar test </a>
         </li>
@@ -31,5 +30,5 @@
     {% endfor %}
   </tbody>
 </table>
-
+<a href="{% url 'create_test' %}" class="buttonMain"> Crear Test </a>
 {% endblock %}

@@ -3,7 +3,8 @@
 {% block content %}
 <div class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
   <h2 class="font-semibold text-blue-800 mb-2">Lista de Preguntas</h2>
-  <a href="{% url 'create_question' %}" class="buttonMain"> Crear Pregunta </a>
+  <button type="button" class='buttonNeutral' onclick="history.back()">Atras</button>
+
   {% if questions %}
   <table class="max-w-full">
     <thead>
@@ -21,7 +22,7 @@
         {% if not question.reference_image %}
         <td class="px-4 py-2">No hay Imagen de Referencia</td>
         {% else %}
-        <td class="px-4 py-2"><img src="{{ question.reference_image.url }}" class="max-w-30 h-auto"/></td>
+        <td class="px-4 py-2"><img src="{{ question.reference_image.url }}" class="max-w-20 h-auto"/></td>
         {% endif %}
       </tr>
       <tr>
@@ -37,5 +38,6 @@
   {% else %}
   <p>No hay contextos disponibles.</p>
   {% endif %}
+    <a href="{% url 'create_question' %}" class="buttonMain"> Crear Pregunta </a>
 </div>
 {% endblock %}

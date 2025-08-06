@@ -5,6 +5,7 @@
 <form method="post" enctype="multipart/form-data" class="bg-blue-100 p-4 rounded shadow hover:shadow-lg transition">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Crear Pregunta</button>
+    <button type="submit" class='buttonMain mt-5'>Crear Pregunta</button>
 </form>
+<button type="button" class='buttonCancel' onclick="history.back()">Cancelar</button>
 {% endblock %}
